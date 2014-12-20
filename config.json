@@ -1,0 +1,23 @@
+{
+  "UDPPort": 3333,
+  "UDPHost": "0.0.0.0",
+  "UDPBroadcastAddress": "255.255.255.255",
+  "db": ":memory:",
+  "logDb": ":memory:",
+  "serialPort": {
+    "path": "/dev/ttys002",
+    "options": {
+    }
+  },
+  "doorTimeout": 5000,
+  "readerMapping": {
+    "1": ["1"],
+    "2": ["2"],
+    "3": ["3"],
+    "4": ["4"],
+    "5": ["5"],
+    "6": ["6"],
+    "7": ["7"],
+    "8": ["8"]
+  }
+}

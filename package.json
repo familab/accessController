@@ -1,0 +1,24 @@
+{
+  "name": "accessController",
+  "version": "1.0.0",
+  "description": "Node Library to manage access control hardware ",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/familab/accessController.git"
+  },
+  "author": "Lance Hudson <lance@lancehudson.com> (http://lancehudson.com)",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/familab/accessController/issues"
+  },
+  "homepage": "https://github.com/familab/accessController",
+  "dependencies": {
+    "serialport": "^1.4.9",
+    "sqlite3": "^3.0.4"
+  }
+}
