@@ -36,6 +36,8 @@ Example
 ### Heartbeat
 This is used to monitor that the reader and its network connection are working. It can also be used to detect power on or reset.
 
+It is expected that a heartbeat is sent at least every 2 minutes and the reader will be considered offline if one is not recieved within 5 minutes.
+
 | Reader ID (8 bits) | Status (8 bits) | Uptime (32 bits) |
 
 Status is defined as a single byte with each true bit representing a status.
