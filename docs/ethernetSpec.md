@@ -36,7 +36,7 @@ Example
 ### Heartbeat
 This is used to monitor that the reader and its network connection are working. It can also be used to detect power on or reset.
 
-| Reader ID (8 bits) | Status (8 bits) |
+| Reader ID (8 bits) | Status (8 bits) | Uptime (32 bits) |
 
 Status is defined as a single byte with each true bit representing a status.
 
@@ -50,6 +50,8 @@ Status is defined as a single byte with each true bit representing a status.
 |6|Reset Command Running|
 |7|Reserved|
 |8|Reserved|
+
+Uptime is a 32 bit number indicating the uptime of the reading in microseconds, will roll over about every 51 days.
 
 ## UDP packet definitions to Reader
 ### Command
