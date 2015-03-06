@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/familab/accessController.svg)](https://travis-ci.org/familab/accessController)
+[![Coverage Status](https://coveralls.io/repos/familab/accessController/badge.svg)](https://coveralls.io/r/familab/accessController)
+[![Dependency Status](https://gemnasium.com/familab/accessController.svg)](https://gemnasium.com/familab/accessController)
+
 accessController
 ================
 
@@ -17,4 +21,4 @@ To start a mock card reader run
 
 To run the unit tests run
 
-`make`
+`make test`

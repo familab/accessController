@@ -25,11 +25,18 @@
         "configs": {
             "@inited": "true",
             "json()": {
-                "App": {
+                "App 2.7": {
                     "command": "app.py",
                     "debug": true,
-                    "name": "App",
+                    "name": "App 2.7",
                     "runner": "Python 2.7"
+                },
+                "App 3.4": {
+                    "command": "app.py",
+                    "cwd": "/",
+                    "debug": true,
+                    "name": "App 3.4",
+                    "runner": "Python 3.4"
                 }
             }
         }
