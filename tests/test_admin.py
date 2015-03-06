@@ -16,7 +16,7 @@ class FlaskrTestCase(unittest.TestCase):
     
   def test_empty_db(self):
     rv = self.app.get('/')
-    assert 'Hello World' in rv.data
+    assert b'Hello World' == rv.data
 
 if __name__ == '__main__':
     unittest.main()
