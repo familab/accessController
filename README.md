@@ -5,6 +5,8 @@
 accessController
 ================
 
+[![Join the chat at https://gitter.im/familab/accessController](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/familab/accessController?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Python Library to manage access control hardware
 
 Requires Python 2.7
