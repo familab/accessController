@@ -47,7 +47,10 @@ Cards.updateById = function(req, res) {
 }
 
 Cards.deleteById = function(req, res) {
-  res.status(200).end()
-}
+  db.run('DELETE FROM cards WHERE ROWID = $id', [req.params.id], function(err) {
+      if (err) { res.send(err); throw err; }
+      else res.status(200).end()
+  });
+};
 
 module.exports = Cards;

@@ -10,7 +10,7 @@ router.get('/members', members.getAll)
 router.post('/members', members.create)
 router.get('/members/:id', members.getById)
 router.put('/members/:id', members.updateById)
-router.delete('/members:id', members.deleteById)
+router.delete('/members/:id', members.deleteById)
 
 // Member Cards
 router.get('/members/:memberId/cards', cards.getAll)

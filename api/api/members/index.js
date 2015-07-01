@@ -49,7 +49,10 @@ Members.updateById = function(req, res) {
 };
 
 Members.deleteById = function(req, res) {
-  res.status(200).end()
+  db.run('DELETE FROM members WHERE ROWID = $id', [req.params.id], function(err) {
+      if (err) { res.send(err); throw err; }
+      else res.status(200).end()
+  });
 };
 
 module.exports = Members;
