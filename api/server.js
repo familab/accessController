@@ -4,7 +4,10 @@ var express = require('express'),
     config = require('./libs/config'),
     router = require('./routes'),
     nfc = require('nfc').nfc,
-    n = new nfc();
+    n = new nfc(),
+    bodyParser = require('body-parser');
+
+app.use(bodyParser.json())
 
 app.get('/', function(req, res){
   res.send({
