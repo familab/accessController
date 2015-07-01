@@ -4,7 +4,10 @@ var express = require('express'),
     config = require('./libs/config')
 
 app.get('/', function(req, res){
-  res.send({active: true})
+  res.send({
+    active: true,
+    timestamp: new Date().getTime()
+  })
 })
 
 // Server Listener
