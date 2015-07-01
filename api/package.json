@@ -25,6 +25,7 @@
   "homepage": "https://github.com/familab/accessController",
   "dependencies": {
     "express": "^4.13.0",
+    "nfc": "0.0.5",
     "sqlite3": "^3.0.8"
   }
 }
