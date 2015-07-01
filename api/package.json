@@ -24,12 +24,7 @@
   },
   "homepage": "https://github.com/familab/accessController",
   "dependencies": {
-    "es6-module-loader": "0.16.6",
-    "koa": "^0.21.0",
-    "koa-body-parser": "^1.1.2",
-    "koa-router": "^5.1.2",
-    "traceur": "0.0.89",
-    "nfc": "0.0.5",
+    "express": "^4.13.0",
     "sqlite3": "^3.0.8"
   }
 }
