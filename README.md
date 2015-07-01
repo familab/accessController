@@ -14,10 +14,9 @@ gpio pins on raspberry pi
    - https://www.npmjs.com/package/rpi-gpio
    - https://www.npmjs.com/package/pi-gpio
 
-
 ## DB Schema
 
-Member
+Members
 -----
 ID
 Name
@@ -30,7 +29,7 @@ ID
 UID
 Enabled
 
-AccessLog
+Logs
 -----
 Timestamp
 MemberID
