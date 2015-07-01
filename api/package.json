@@ -11,13 +11,19 @@
     "type": "git",
     "url": "https://github.com/familab/accessController.git"
   },
-  "author": "Lance Hudson <lance@lancehudson.com> (http://lancehudson.com)",
+  "author": [
+    "Lance Hudson <lance@lancehudson.com> (http://lancehudson.com)",
+    "Daniel Grove <danny@drgrovellc.com>"
+  ],
   "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/familab/accessController/issues"
   },
   "homepage": "https://github.com/familab/accessController",
   "dependencies": {
+    "es6-module-loader": "^0.17.3",
+    "koa": "^0.21.0",
+    "koa-body-parser": "^1.1.2",
     "serialport": "^1.4.9"
   }
 }
