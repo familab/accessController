@@ -1,5 +1,6 @@
 'use strict'
 
+var db = require('../../db');
 var Cards = {}
 
 // ID
@@ -8,11 +9,33 @@ var Cards = {}
 // Enabled
 
 Cards.getAll = function(req, res) {
-  res.send([{id: 1, uid: '5BAE23', memberId: 1, enabled: true}]);
+  if(req.params.memberId) {
+    db.all('SELECT ROWID as id, uid, memberId, enabled FROM cards WHERE memberId = $memberId', [req.params.memberId], function(err, rows) {
+      if (err) { res.send(err); throw err; }
+      else res.send(rows);
+    });
+  }
+  else {
+    db.all('SELECT ROWID as id, uid, memberId, enabled FROM cards', function(err, rows) {
+      if (err) { res.send(err); throw err; }
+      else res.send(rows);
+    });
+  }
 }
 
 Cards.getById = function(req, res) {
-  res.send({id: 1, uid: '5BAE23', memberId: 1, enabled: true});
+  if(req.params.memberId) {
+    db.get('SELECT ROWID as id, uid, memberId, enabled FROM cards WHERE ROWID = $id AND memberId = $memberId', [req.params.id, req.params.memberId], function(err, row) {
+      if (err) { res.send(err); throw err; }
+      else res.send(row);
+    });
+  }
+  else {
+    db.get('SELECT ROWID as id, uid, memberId, enabled FROM cards WHERE ROWID = $id', [req.params.id], function(err, row) {
+      if (err) { res.send(err); throw err; }
+      else res.send(row);
+    });
+  }
 }
 
 Cards.create = function(req, res) {

@@ -27,10 +27,10 @@ router.put('/cards/:id', cards.updateById)
 router.delete('/cards/:id', cards.deleteById)
 
 // Logs
-router.get('/logs', cards.getAll)
-//router.post('/logs', cards.create)
-router.get('/logs/:id', cards.getById)
-//router.put('/logs/:id', cards.updateById)
-//router.delete('/logs/:id', cards.deleteById)
+router.get('/logs', logs.getAll)
+//router.post('/logs', logs.create)
+router.get('/logs/:id', logs.getById)
+//router.put('/logs/:id', logs.updateById)
+//router.delete('/logs/:id', logs.deleteById)
 
 module.exports = router

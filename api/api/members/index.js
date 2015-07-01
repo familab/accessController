@@ -3,23 +3,41 @@
 var db = require('../../db');
 var Members = {};
 
-Members.getAll = function(req, res) {
-
   // ID
   // Name
   // Email
   // Enabled
 
-  //db.all('')
-  //function(err, rows) {}
-  res.send([
-    {id: 1, name: 'John Doe', email: 'jon@familab.org', enabled: true},
-    {id: 2, name: 'Jane Doe', email: 'jane@familab.org', enabled: false}
-  ]);
+Members.getAll = function(req, res) {
+  var data = [];
+  db.each('SELECT ROWID as id, name, email, enabled FROM members', function(err, row) {
+    if (err) { res.send(err); throw err; }
+    else {
+      data.push({
+        id: row.id,
+        name: row.name,
+        email: row.email,
+        enabled: row.enabled == 1 ? true : false
+      });
+    }
+  }, function(err) {
+    if (err) { res.send(err); throw err; }
+    res.send(data);
+  });
 };
 
 Members.getById = function(req, res) {
-  res.send({id: 1, name: 'John Doe', email: 'jon@familab.org', enabled: true});
+  db.get('SELECT ROWID as id, name, email, enabled FROM members WHERE ROWID = $id', [req.params.id], function(err, row) {
+    if (err) { res.send(err); throw err; }
+    else res.send(
+      {
+        id: row.id,
+        name: row.name,
+        email: row.email,
+        enabled: row.enabled == 1 ? true : false
+      }
+    );
+  });
 };
 
 Members.create = function(req, res) {
