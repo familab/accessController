@@ -41,7 +41,7 @@ Members.getById = function(req, res) {
 };
 
 Members.create = function(req, res) {
-  res.status(200).end()
+  res.status(201).end()
 };
 
 Members.updateById = function(req, res) {
