@@ -1,7 +1,8 @@
 'use strict'
 var express = require('express'),
     app = express(),
-    config = require('./libs/config')
+    config = require('./libs/config'),
+    router = require('./routes')
 
 app.get('/', function(req, res){
   res.send({
@@ -9,6 +10,8 @@ app.get('/', function(req, res){
     timestamp: new Date().getTime()
   })
 })
+
+app.use('/api/v1', router)
 
 // Server Listener
 app.listen(config.app.port, config.app.host, function(e) {
