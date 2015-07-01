@@ -6,8 +6,13 @@ angular.module('accessController')
 , function
   ( $scope
   , Members
+  , NewMembersModal
   )
   {
     $scope.members = Members.get()
+
+    $scope.newMembersModal = function(){
+      NewMembersModal.open()
+    }
   }
 )
