@@ -24,7 +24,8 @@ var options = {
 wrench.readdirSyncRecursive('./gulp').filter(function(file) {
   return (/\.(js|coffee)$/i).test(file);
 }).map(function(file) {
-  require('./gulp/' + file)(options);
+  if(file !== 'proxy.js')
+    require('./gulp/' + file)(options);
 });
 
 gulp.task('default', ['clean'], function () {

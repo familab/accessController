@@ -7,7 +7,12 @@ angular.module('accessController', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSani
         url: '/',
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl'
-      });
+      })
+      .state('members', {
+        url: '^/members',
+        templateUrl: 'app/members/members.html',
+        controller: 'MembersCtrl'
+      })
 
     $urlRouterProvider.otherwise('/');
   })
