@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/familab/accessController",
   "dependencies": {
-    "serialport": "^1.4.9",
-    "sqlite3": "^3.0.4"
+    "serialport": "^1.4.9"
   }
 }
