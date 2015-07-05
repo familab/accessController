@@ -4,6 +4,9 @@ bower_components/
 .tmp/
 dist/
 
+# Swap Files
+*.sw*
+
 # Logs
 /logs
 *.log
