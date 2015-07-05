@@ -10,7 +10,7 @@ angular.module('accessController')
     var service = {}
 
     service.open = function(){
-      $modal
+      return $modal
         .open
         ( { templateUrl: '/app/components/newMembersModal/newMembersModal.html'
           , controller: 'newMembersModalCtrl'

@@ -13,6 +13,17 @@ angular.module('accessController', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSani
         templateUrl: 'app/members/members.html',
         controller: 'MembersCtrl'
       })
+      .state('members.add', {
+        url: '^/members/add',
+        onEnter: function($stateParams, $state, NewMembersModal) {
+          NewMembersModal
+            .open()
+            .result
+            .finally(function(){
+              $state.go('^')
+            })
+        }
+      })
 
     $urlRouterProvider.otherwise('/');
   })
