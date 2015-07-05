@@ -1,9 +1,9 @@
 'use strict'
 var express = require('express'),
     router = express.Router(),
-    members = require('./api/members/index'),
-    cards = require('./api/cards/index'),
-    logs = require('./api/logs/index')
+    members = require('./routes/members/index'),
+    cards = require('./routes/cards/index'),
+    logs = require('./routes/logs/index')
 
 // Members
 router.get('/members', members.getAll)
