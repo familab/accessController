@@ -26,6 +26,8 @@ Raspberry Pi 2
   - adafruit repo - `curl -sLS https://apt.adafruit.com/add | sudo bash`
   - node js - `sudo apt-get install node`
 
+RUN with env PROD = something
+
 ## DB Schema
 
 Members (LIST, GET, POST, DELETE)
