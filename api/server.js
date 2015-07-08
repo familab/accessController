@@ -31,10 +31,6 @@ app.listen(config.app.port, config.app.host, function(e) {
       serialPort.on('data', function(data) {
         console.log('data received: ' + data);
       });
-      serialPort.write("ls\n", function(err, results) {
-        console.log('err ' + err);
-        console.log('results ' + results);
-      });
     }
   });
 })
