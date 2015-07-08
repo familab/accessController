@@ -1,0 +1,23 @@
+<h1>Logs</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-center col-xs-5">
+        Card UID
+      </th>
+      <th class="text-center col-xs-5">
+        Timestamp
+      </th>
+      <th class="text-center col-xs-2">
+        Allowed
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="log in logs">
+      <td>{{log.cardId}}</td>
+      <td>{{log.timestamp}}</td>
+      <td>{{log.allowed}}</td>
+    </tr>
+  </tbody>
+</table>
