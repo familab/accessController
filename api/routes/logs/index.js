@@ -9,7 +9,7 @@ var Logs = {}
 
 Logs.getAll = function(req, res) {
   var data = [];
-  db.each('SELECT ROWID as id, timestamp, memberId, cardId FROM logs', function(err, row) {
+  db.each('SELECT ROWID as id, timestamp, memberId, cardId FROM logs LIMIT 100', function(err, row) {
     if (err) { res.send(err); throw err; }
     else {
       data.push({
@@ -39,8 +39,12 @@ Logs.getById = function(req, res) {
   });
 };
 
-Logs.create = function(req, res) {
-  res.status(200).end()
+Logs.create = function(uid, allowed) {
+  db.run('INSERT INTO logs (timestamp, uid, allowed) VALUES (?, ?, ?)', [(new Date).UTC(), uid, allowed], function(e, row){
+    if(e) {
+      return console.error('Error - Logs Create: ', e.stack || e);
+    }
+  });
 }
 
 module.exports = Logs;

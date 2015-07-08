@@ -8,6 +8,7 @@ var express = require('express'),
       baudrate: config.serial.buadRate
     }, false),
     cards = require('./routes/cards'),
+    logs = require('./routes/logs'),
     door = require('./libs/door'),
     bodyParser = require('body-parser');
 
@@ -35,6 +36,7 @@ app.listen(config.app.port, config.app.host, function(e) {
           var uid = data.toString().replace(/(\r\n|\n|\r)/gm,"");
           cards.isUIDAllowed(uid, function(err, allowed) {
             if (err) throw err;
+            logs.create(uid, allowed);
             if (allowed) door.open();
             else console.log('Card ' + uid + ' denied' );
           });
