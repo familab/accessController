@@ -9,9 +9,15 @@ function MembersCtrl
 ( $scope
 , Members
 , MembersModal
+, members
+, $rootScope
 )
 {
-  $scope.members = Members.get()
+  $scope.members = members
+
+  $rootScope.$on('RePollMembers', function(){
+    $scope.members = Members.get()
+  })
 
   $scope.remove = function(member, idx) {
     member
@@ -31,4 +37,6 @@ MembersCtrl.$inject =
 [ "$scope"
 , "Members"
 , "MembersModal"
+, "members"
+, "$rootScope"
 ]

@@ -23,26 +23,33 @@ angular
       .state('members', {
         url: '^/members',
         templateUrl: 'app/members/members.html',
-        controller: 'MembersCtrl'
+        controller: 'MembersCtrl',
+        resolve: {
+          members: function(Members) {
+            return Members.get()
+          }
+        }
       })
       .state('members.add', {
         url: '^/members/add',
-        onEnter: function($stateParams, $state, MembersModal) {
+        onEnter: function($stateParams, $state, MembersModal, $rootScope) {
           MembersModal
             .open()
             .result
             .finally(function(){
+              $rootScope.$emit('RePollMembers')
               $state.go('^')
             })
         }
       })
       .state('members.edit', {
         url: '^/members/:id/edit',
-        onEnter: function($stateParams, $state, MembersModal) {
+        onEnter: function($stateParams, $state, MembersModal, $rootScope) {
           MembersModal
             .open($stateParams.id)
             .result
             .finally(function(){
+              $rootScope.$emit('RePollMembers')
               $state.go('^')
             })
         }
