@@ -36,9 +36,9 @@ app.listen(config.app.port, config.app.host, function(e) {
               if (err) throw err;
               if (allowed) door.open();
             });
-          }
-        });
+          });
+        }
       });
-    }
+    });
   }
-})
+});
