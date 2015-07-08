@@ -3,8 +3,10 @@ var express = require('express'),
     app = express(),
     config = require('./libs/config'),
     router = require('./routes'),
-    nfc = require('nfc').nfc,
-    n = new nfc(),
+    SerialPort = require('serialport').SerialPort,
+    serialPort = new SerialPort(config.serialPort, {
+      baudrate: config.buadRate
+    }, false),
     bodyParser = require('body-parser');
 
 app.use(bodyParser.json())
@@ -21,9 +23,18 @@ app.use('/api/v1', router)
 // Server Listener
 app.listen(config.app.port, config.app.host, function(e) {
   console.log('Listening on http://%s:%s', config.app.host, config.app.port)
-  // n.start();
-  //
-  // n.on('uid', function(uid) {
-  //     console.log('UID:', uid);
-  // });
+  serialPort.open(function (error) {
+    if ( error ) {
+      console.log('failed to open: '+error);
+    } else {
+      console.log('open');
+      serialPort.on('data', function(data) {
+        console.log('data received: ' + data);
+      });
+      serialPort.write("ls\n", function(err, results) {
+        console.log('err ' + err);
+        console.log('results ' + results);
+      });
+    }
+  });
 })

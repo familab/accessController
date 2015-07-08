@@ -7,14 +7,24 @@ Version 1 Requirements
 
 SQLite
   - node-migrate https://github.com/rsandor/node-migrate
-libnfc
+
+nfc
+  We are going to attach a nfc reader to an ardinuo to the raspberry pi
   - https://www.adafruit.com/products/789
   - https://dangerousthings.com/shop/simple-pn532/
-  - https://www.npmjs.com/package/nfc (requires node v10)
+  - https://www.arduino.cc/en/Main/ArduinoBoardYun?from=Products.ArduinoYUN
+  - https://github.com/adafruit/Adafruit-PN532/releases
+
 gpio pins on raspberry pi
    - https://www.npmjs.com/package/rpi-gpio
    - https://www.npmjs.com/package/pi-gpio
    - https://www.sparkfun.com/products/11042
+
+Raspberry Pi 2
+  - Raspbian
+  - minicom - serial port testing `minicom -b 115200 -o -D /dev/ttyAMA0`
+  - adafruit repo - `curl -sLS https://apt.adafruit.com/add | sudo bash`
+  - node js - `sudo apt-get install node`
 
 ## DB Schema
 
