@@ -7,7 +7,7 @@ var create_cards_table = new Migration({
 			t.index('uid');
 		});
 
-		this.execute("insert into cards (uid, memberId, enabled) values ('4F33A2', 1, 1);");
+		this.execute("insert into cards (uid, memberId, enabled) values ('FDAC9DF7', 1, 1);");
 	},
 	down: function() {
     this.drop_table('cards');

@@ -29,17 +29,16 @@ app.listen(config.app.port, config.app.host, function(e) {
     door.setup(function() {
       serialPort.open(function (error) {
         if ( error ) {
-          console.log('failed to open: '+ error);
-        } else {
-          serialPort.on('data', function(data) {
-            var uid = data.toString().replace(/(\r\n|\n|\r)/gm,"");
-            cards.isUIDAllowed(uid, function(err, allowed) {
-              if (err) throw err;
-              if (allowed) door.open();
-              else console.log('Card ' + uid + ' denied' );
-            });
-          });
+          return console.log('failed to open: '+ error);
         }
+        serialPort.on('data', function(data) {
+          var uid = data.toString().replace(/(\r\n|\n|\r)/gm,"");
+          cards.isUIDAllowed(uid, function(err, allowed) {
+            if (err) throw err;
+            if (allowed) door.open();
+            else console.log('Card ' + uid + ' denied' );
+          });
+        });
       });
     });
   }
