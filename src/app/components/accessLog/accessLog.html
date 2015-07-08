@@ -15,8 +15,12 @@
   </thead>
   <tbody>
     <tr ng-repeat="log in logs">
-      <td>{{log.uid}}</td>
-      <td>{{log.timestamp}}</td>
+      <td class="text-center">
+        {{log.uid}}
+      </td>
+      <td class="text-center">
+        {{log.timestamp | date:'short'}}
+      </td>
       <td class="text-center">
         <i
           class="fa"
