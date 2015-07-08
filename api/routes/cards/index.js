@@ -54,7 +54,11 @@ Cards.deleteById = function(req, res) {
 };
 
 Cards.isUIDAllowed = function(uid, cb) {
-  cb(null, true);
+  db.get('SELECT FROM cards JOIN members on members.ROWID = cards.memberId WHERE cards.enabled = "1" AND members.enabled = "1" AND cards.uid = "$uid"', [uid], function(err, row) {
+    if(err) return cb(err);
+    if(row) return cb(null, true);
+    else return cb(null, false);
+  });
 }
 
 module.exports = Cards;
