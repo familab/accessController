@@ -10,13 +10,13 @@ var Cards = {}
 
 Cards.getAll = function(req, res) {
   if(req.params.memberId) {
-    db.all('SELECT ROWID as id, uid, memberId, enabled FROM cards WHERE memberId = $memberId', [req.params.memberId], function(err, rows) {
+    db.all('SELECT ROWID as id, uid, memberId, name, enabled FROM cards WHERE memberId = $memberId', [req.params.memberId], function(err, rows) {
       if (err) { res.send(err); throw err; }
       else res.send(rows);
     });
   }
   else {
-    db.all('SELECT ROWID as id, uid, memberId, enabled FROM cards', function(err, rows) {
+    db.all('SELECT ROWID as id, uid, memberId, name enabled FROM cards', function(err, rows) {
       if (err) { res.send(err); throw err; }
       else res.send(rows);
     });
@@ -25,16 +25,12 @@ Cards.getAll = function(req, res) {
 
 Cards.getById = function(req, res) {
   if(req.params.memberId) {
-    db.get('SELECT ROWID as id, uid, memberId, enabled FROM cards WHERE ROWID = $id AND memberId = $memberId', [req.params.id, req.params.memberId], function(err, row) {
+    db.get('SELECT ROWID as id, uid, memberId, name, enabled FROM cards WHERE ROWID = $id AND memberId = $memberId', [req.params.id, req.params.memberId], function(err, row) {
       if (err) { res.send(err); throw err; }
       else res.send(row);
     });
-  }
-  else {
-    db.get('SELECT ROWID as id, uid, memberId, enabled FROM cards WHERE ROWID = $id', [req.params.id], function(err, row) {
-      if (err) { res.send(err); throw err; }
-      else res.send(row);
-    });
+  } else {
+    res.status(302).end()
   }
 }
 

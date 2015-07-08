@@ -51,8 +51,35 @@ Members.create = function(req, res) {
       res.send(e);
       return console.error('Error - Member Create: ', e.stack || e);
     }
+    var lastId = this.lastID
+    var cards = body.cards
+    var cardLength = cards.length
+    var completed = 0
+    var errored = 0
+    for(var i = 0; i < cardLength; i++) {
+      var card = cards[i]
+      var params =
+      [ card.uid
+      , lastId
+      ]
+      db.run('INSERT INTO cards (uid, memberId, enabled) VALUES (?, ?, 1)', params, function(e, row){
+        if(e) {
+          console.error("Error inserting card: ", e.stack || e)
+          errored++
+        }
+        completed++
 
-    res.status(201).send({success: true})
+        if(completed === cardLength) {
+          var out = {}
+          out.success = true
+          if(errored) {
+            out.cardsNotInserted = errored
+          }
+          res.status(201).send(out)
+        }
+      })
+    }
+
   })
 };
 
@@ -70,14 +97,50 @@ Members.updateById = function(req, res) {
       res.send(e);
       return console.error('Error - Member Update: ', e.stack || e)
     }
-    res.send({success: true})
+    var cards = body.cards
+    var cardLength = cards.length
+    var completed = 0
+    var errored = 0
+    for(var i = 0; i < cardLength; i++) {
+      var card = cards[i]
+      var params =
+      [ card.uid
+      , card.name
+      , card.id
+      ]
+      db.run('UPDATE cards SET uid = ?, name = ? WHERE ROWID = ?', params, function(e, row){
+        if(e) {
+          console.error("Error inserting card: ", e.stack || e)
+          errored++
+        }
+        completed++
+
+        if(completed === cardLength) {
+          var out = {}
+          out.success = true
+          if(errored) {
+            out.cardsNotInserted = errored
+          }
+          res.status(200).send(out)
+        }
+      })
+    }
   })
 };
 
 Members.deleteById = function(req, res) {
   db.run('DELETE FROM members WHERE ROWID = $id', [req.params.id], function(err) {
-      if (err) { res.send(err); throw err; }
-      else res.status(200).end()
+      if (err) {
+        res.send(err); throw err;
+      }
+      db.run('DELETE FROM cards WHERE memberId = $id', [req.params.id], function(err){
+        if(err) {
+          console.error('Could not delete cards for: ', req.params.id, err.stack || err)
+          res.send(err)
+        }
+
+        res.status(204).end()
+      })
   });
 };
 

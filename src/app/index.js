@@ -1,6 +1,18 @@
 'use strict';
 
-angular.module('accessController', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'ui.bootstrap'])
+angular
+  .module
+  ( 'accessController'
+  , [ 'ngAnimate'
+    , 'ngCookies'
+    , 'ngTouch'
+    , 'ngSanitize'
+    , 'ngResource'
+    , 'ui.router'
+    , 'ui.bootstrap'
+    , 'xeditable'
+    ]
+  )
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
@@ -15,9 +27,20 @@ angular.module('accessController', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSani
       })
       .state('members.add', {
         url: '^/members/add',
-        onEnter: function($stateParams, $state, NewMembersModal) {
-          NewMembersModal
+        onEnter: function($stateParams, $state, MembersModal) {
+          MembersModal
             .open()
+            .result
+            .finally(function(){
+              $state.go('^')
+            })
+        }
+      })
+      .state('members.edit', {
+        url: '^/members/:id/edit',
+        onEnter: function($stateParams, $state, MembersModal) {
+          MembersModal
+            .open($stateParams.id)
             .result
             .finally(function(){
               $state.go('^')
@@ -26,5 +49,8 @@ angular.module('accessController', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSani
       })
 
     $urlRouterProvider.otherwise('/');
+  })
+  .run(function(editableOptions){
+    editableOptions.theme = 'bs3'
   })
 ;

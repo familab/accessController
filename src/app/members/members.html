@@ -14,6 +14,7 @@
         <th class="text-center">Name</th>
         <th class="text-center">Email</th>
         <th class="text-center">Enabled</th>
+        <th class="text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -34,6 +35,20 @@
           <i
             class="fa"
             ng-class="{'fa-check':member.enabled, 'fa-times':!member.enabled}"
+          >
+          </i>
+        </td>
+        <td>
+          <i
+            class="fa fa-pencil"
+            aria-label="Edit User ({{member.name}})"
+            ui-sref="members.edit({id: member.id})"
+          >
+          </i>
+          <i
+            class="fa fa-trash"
+            aria-label="Delete User ({{member.name}})"
+            ng-click="remove(member, $index)"
           >
           </i>
         </td>

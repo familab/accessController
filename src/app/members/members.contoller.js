@@ -3,16 +3,32 @@
 angular.module('accessController')
 .controller
 ( 'MembersCtrl'
-, function
-  ( $scope
-  , Members
-  , NewMembersModal
-  )
-  {
-    $scope.members = Members.get()
-
-    $scope.newMembersModal = function(){
-      NewMembersModal.open()
-    }
-  }
+, MembersCtrl
 )
+function MembersCtrl
+( $scope
+, Members
+, MembersModal
+)
+{
+  $scope.members = Members.get()
+
+  $scope.remove = function(member, idx) {
+    member
+      .$delete()
+      .then(function(res){
+        console.log('res', res)
+        $scope.members.splice(idx, 1)
+      })
+  }
+
+  $scope.newMembersModal = function(){
+    MembersModal.open()
+  }
+}
+
+MembersCtrl.$inject =
+[ "$scope"
+, "Members"
+, "MembersModal"
+]

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-11">
       <h3 class="modal-title">
-        Add New Member
+        {{editMember?'Edit':'Add New'}} Member
       </h3>
     </div>
     <div class="col-xs-1">
@@ -15,7 +15,6 @@
   </div>
 </div>
 <div class="modal-body">
-  <form name="newMembersModalForm" role="form">
     <div class="form-group">
       <label for="name">Full Name</label>
       <input
@@ -45,34 +44,34 @@
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th class="text-center">Name</th>
-          <th class="text-center">UUID</th>
-          <th class="text-center">Actions</th>
+          <th class="text-center col-xs-5">Name</th>
+          <th class="text-center col-xs-5">UID</th>
+          <th class="text-center col-xs-2">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-show="addCardState" class="text-center">
           <td>
-            <input 
-              class="form-control" 
-              ng-model="card.name" 
+            <input
+              class="form-control"
+              ng-model="card.name"
             />
           </td>
           <td>
-            <input 
-              class="form-control" 
-              ng-model="card.uuid" 
+            <input
+              class="form-control"
+              ng-model="card.uid"
             />
           </td>
           <td>
             <i
               class="fa fa-check-circle fa-2x"
-              ng-click="addCard(card)" 
+              ng-click="addCard(card)"
             >
             </i>
             <i
               class="fa fa-times-circle fa-2x"
-              ng-click="clearCard(card)" 
+              ng-click="clearCard()"
             >
             </i>
 
@@ -83,20 +82,20 @@
             No Cards
           </td>
         </tr>
-        <tr 
+        <tr
+          ng-if="member.cards"
           ng-repeat="card in member.cards track by $index"
         >
-          <td>{{card.name}}</td>
-          <td>{{card.uuid}}</td>
+          <td>
+            <a href="" editable-text="card.name">{{card.name || "No Value"}}</a>
+          </td>
+          <td>
+            <a href="" editable-text="card.uid">{{card.uid || "No Value"}}</a>
+          </td>
           <td class="text-right">
             <i
-              class="fa fa-pencil fa-2x"
-              ng-click="editCard(card)"
-            >
-            </i>
-            <i
               class="fa fa-trash fa-2x"
-              ng-click="removeCard($index)"
+              ng-click="clearCard(card, $index)"
             >
             </i>
 
@@ -104,14 +103,14 @@
         </tr>
       </tbody>
     </table>
-  </form>
 </div>
 <div class="modal-footer">
   <button
     type="button"
     class="btn btn-primary"
+    ng-click="save()"
   >
-    Create
+    {{editMember?'Update':'Create'}}
   </button>
   <button
     type="button"
