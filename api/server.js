@@ -4,8 +4,8 @@ var express = require('express'),
     config = require('./libs/config'),
     router = require('./routes'),
     SerialPort = require('serialport').SerialPort,
-    serialPort = new SerialPort(config.serialPort, {
-      baudrate: config.buadRate
+    serialPort = new SerialPort(config.serial.path, {
+      baudrate: config.serial.buadRate
     }, false),
     bodyParser = require('body-parser');
 
