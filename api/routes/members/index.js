@@ -41,11 +41,37 @@ Members.getById = function(req, res) {
 };
 
 Members.create = function(req, res) {
-  res.status(201).end()
+  var body = req.body
+  var inserts =
+    [ body.name
+    , body.email
+    ]
+  db.run('INSERT INTO members (name, email, enabled) VALUES (?,?, 1)', inserts, function(e, row){
+    if(e) {
+      res.send(e);
+      return console.error('Error - Member Create: ', e.stack || e);
+    }
+
+    res.status(201).send({success: true})
+  })
 };
 
 Members.updateById = function(req, res) {
-  res.status(200).end()
+  var body = req.body
+  var inserts =
+  [ body.name
+  , body.email
+  , body.enabled
+  , req.params.id
+  ]
+  var stmt = 'UPDATE members SET name = ?, email = ?, enabled = ? WHERE ROWID = ?'
+  db.run(stmt, inserts, function(e, row){
+    if(e) {
+      res.send(e);
+      return console.error('Error - Member Update: ', e.stack || e)
+    }
+    res.send({success: true})
+  })
 };
 
 Members.deleteById = function(req, res) {
