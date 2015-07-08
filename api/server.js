@@ -32,6 +32,7 @@ app.listen(config.app.port, config.app.host, function(e) {
           console.log('failed to open: '+ error);
         } else {
           serialPort.on('data', function(data) {
+            data = data.toString().replace('/r', '').replace('/n', '');
             cards.isUIDAllowed(data, function(err, allowed) {
               if (err) throw err;
               if (allowed) door.open();
