@@ -7,6 +7,8 @@ var express = require('express'),
     serialPort = new SerialPort(config.serial.path, {
       baudrate: config.serial.buadRate
     }, false),
+    cards = require('./routes/cards'),
+    door = require('./libs/door'),
     bodyParser = require('body-parser');
 
 app.use(bodyParser.json())
@@ -23,14 +25,18 @@ app.use('/api/v1', router)
 // Server Listener
 app.listen(config.app.port, config.app.host, function(e) {
   console.log('Listening on http://%s:%s', config.app.host, config.app.port)
-  serialPort.open(function (error) {
-    if ( error ) {
-      console.log('failed to open: '+error);
-    } else {
-      console.log('open');
-      serialPort.on('data', function(data) {
-        console.log('data received: ' + data);
-      });
-    }
+  door.setup(function() {
+    serialPort.open(function (error) {
+      if ( error ) {
+        console.log('failed to open: '+ error);
+      } else {
+        serialPort.on('data', function(data) {
+          cards.isUIDAllowed(data, function(err, test) {
+            if (err) throw err;
+            door.open();
+          });
+        });
+      }
+    });
   });
 })

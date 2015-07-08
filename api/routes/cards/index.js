@@ -53,4 +53,8 @@ Cards.deleteById = function(req, res) {
   });
 };
 
+Cards.isUIDAllowed = function(uid, cb) {
+  cb(true);
+}
+
 module.exports = Cards;
