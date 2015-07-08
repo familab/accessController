@@ -25,18 +25,20 @@ app.use('/api/v1', router)
 // Server Listener
 app.listen(config.app.port, config.app.host, function(e) {
   console.log('Listening on http://%s:%s', config.app.host, config.app.port)
-  door.setup(function() {
-    serialPort.open(function (error) {
-      if ( error ) {
-        console.log('failed to open: '+ error);
-      } else {
-        serialPort.on('data', function(data) {
-          cards.isUIDAllowed(data, function(err, test) {
-            if (err) throw err;
-            door.open();
+  if(process.env.PROD) {
+    door.setup(function() {
+      serialPort.open(function (error) {
+        if ( error ) {
+          console.log('failed to open: '+ error);
+        } else {
+          serialPort.on('data', function(data) {
+            cards.isUIDAllowed(data, function(err, test) {
+              if (err) throw err;
+              door.open();
+            });
           });
-        });
-      }
+        }
+      });
     });
-  });
+  }
 })
