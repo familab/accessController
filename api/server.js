@@ -35,6 +35,7 @@ app.listen(config.app.port, config.app.host, function(e) {
             cards.isUIDAllowed(data, function(err, allowed) {
               if (err) throw err;
               if (allowed) door.open();
+              else console.log('Card ' + data.toString() + 'denied' );
             });
           });
         }
