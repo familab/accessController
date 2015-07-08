@@ -1,5 +1,5 @@
 var gpio = require('rpi-gpio'),
-    config = require('./libs/config');
+    config = require('./config');
 
 module.exports = {
   setup: function(cb) {
