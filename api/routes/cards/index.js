@@ -54,7 +54,7 @@ Cards.deleteById = function(req, res) {
 };
 
 Cards.isUIDAllowed = function(uid, cb) {
-  cb(true);
+  cb(null, true);
 }
 
 module.exports = Cards;

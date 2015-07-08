@@ -7,17 +7,14 @@ module.exports = {
   },
   open: function(cb) {
     gpio.write(config.door.pin, true, function(err) {
-        if (err) {
-          console.log(err);
-          throw err;
-        }
-        console.log('Open door');
-        setTimeout(function() {
-          gpio.write(config.door.pin, false, function(err) {
-              if (err) throw err;
-              console.log('Close door');
-          });
-        }, config.door.delay);
+      if (err) throw err;
+      console.log('Open door');
+      setTimeout(function() {
+        gpio.write(config.door.pin, false, function(err) {
+            if (err) throw err;
+            console.log('Close door');
+        });
+      }, config.door.delay);
     });
     if(cb) cb();
   }
