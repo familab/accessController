@@ -40,7 +40,8 @@ Logs.getById = function(req, res) {
 };
 
 Logs.create = function(uid, allowed) {
-  db.run('INSERT INTO logs (timestamp, uid, allowed) VALUES (?, ?, ?)', [(new Date).UTC(), uid, allowed], function(e, row){
+  var now = new Date();
+  db.run('INSERT INTO logs (timestamp, uid, allowed) VALUES (?, ?, ?)', [now.toUTCString(), uid, allowed], function(e, row){
     if(e) {
       return console.error('Error - Logs Create: ', e.stack || e);
     }
