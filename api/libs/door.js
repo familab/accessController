@@ -7,7 +7,10 @@ module.exports = {
   },
   open: function(cb) {
     gpio.write(config.door.pin, true, function(err) {
-        if (err) throw err;
+        if (err) {
+          console.log(err);
+          throw err;
+        }
         console.log('Open door');
         setTimeout(function() {
           gpio.write(config.door.pin, false, function(err) {
