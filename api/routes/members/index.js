@@ -60,9 +60,10 @@ Members.create = function(req, res) {
       var card = cards[i]
       var params =
       [ card.uid
+      , card.name
       , lastId
       ]
-      db.run('INSERT INTO cards (uid, memberId, enabled) VALUES (?, ?, 1)', params, function(e, row){
+      db.run('INSERT INTO cards (uid, memberId, name, enabled) VALUES (?, ?, ?, 1)', params, function(e, row){
         if(e) {
           console.error("Error inserting card: ", e.stack || e)
           errored++
