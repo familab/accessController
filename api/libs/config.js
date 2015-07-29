@@ -6,11 +6,11 @@ module.exports = {
     port: process.env.PORT || 8888
   },
   serial: {
-    path: process.env.SERIALPORT || '/dev/ttyACM0',
-    buadRate: process.env.BUADRATE || 115200
+    path: process.env.SERIALPORT || '/dev/ttyUSB0',
+    buadRate: process.env.BUADRATE || 9600
   },
   door: {
-    pin: 4,
+    pin: 7,
     delay: 5000
   }
 };

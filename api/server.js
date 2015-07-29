@@ -3,8 +3,10 @@ var express = require('express'),
     app = express(),
     config = require('./libs/config'),
     router = require('./routes'),
-    SerialPort = require('serialport').SerialPort,
+    serialport = require('serialport'),
+    SerialPort = serialport.SerialPort,
     serialPort = new SerialPort(config.serial.path, {
+      parser: serialport.parsers.readline("\n"),
       baudrate: config.serial.buadRate
     }, false),
     cards = require('./routes/cards'),
