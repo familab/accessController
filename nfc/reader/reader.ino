@@ -2,15 +2,15 @@
 #include <SPI.h>
 #include <Adafruit_PN532.h>
 
-#define PN532_IRQ   (4)
-#define PN532_RESET (5)
+#define PN532_IRQ   (2)
+#define PN532_RESET (3)
 
 #define CARD_READ_DELAY (6000)
 
 Adafruit_PN532 nfc(PN532_IRQ, PN532_RESET);
 
 void setup(void) {
-  Serial.begin(115200);
+  Serial.begin(9600);
   //Serial.println("Hello!");
 
   nfc.begin();
@@ -38,6 +38,7 @@ void loop(void) {
     for (uint8_t i=0; i < uidLength; i++)
     {
       Serial.print(uid[i], HEX);
+      delay(10);
     }
     Serial.println("");
   // Wait 1 second before continuing
