@@ -9,7 +9,7 @@ var Logs = {}
 
 Logs.getAll = function(req, res) {
   var data = [];
-  db.each('SELECT ROWID as id, timestamp, uid, allowed FROM logs LIMIT 100 ORDER BY id desc', function(err, row) {
+  db.each('SELECT ROWID as id, timestamp, uid, allowed FROM logs LIMIT 100 ORDER BY ROWID DESC', function(err, row) {
     if (err) { res.send(err); throw err; }
     else {
       data.push({
