@@ -8,6 +8,7 @@ var swaggerConfig = require('./config/swagger.json');
 var config = require('./config/app.json');
 
 // Module dependencies.
+var http = require('http');
 var path = require('path');
 var koa = require('koa');
 var mount = require('koa-mount');
@@ -23,6 +24,7 @@ var conditional = require('koa-conditional-get');
 var etag = require('koa-etag');
 var errorHandler = require('./lib/errorHandler');
 var load = require('./lib/load');
+var logic = require('./lib/logic');
 
 // Variables
 var swaggerUiPath = path.join(require.resolve('swagger-ui'), '..');
@@ -105,7 +107,9 @@ var application = function(opts) {
   // Bootstrap API
   load(app, '/api', __dirname + '/routes');
 
-  app.listen(config.port, config.host, config.backlog);
+  var server = http.createServer(app.callback());
+  server.listen(config.port, config.host, config.backlog);
+  logic.start(server);
 
   return app;
 };

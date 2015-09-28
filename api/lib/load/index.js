@@ -2,7 +2,6 @@
 
 // Module dependencies.
 var Router = require('koa-router');
-var mount = require('koa-mount');
 var debug = require('debug')('api');
 var path = require('path');
 var fs = require('fs');
