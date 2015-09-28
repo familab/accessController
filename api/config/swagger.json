@@ -1,0 +1,23 @@
+{
+  "info": {
+    "title": "Access Control Server",
+    "version": "1.0.0",
+    "contact": {
+      "name": "FamiLAB",
+      "url": "https://familab.org/contact/",
+      "email": "web@familab.org"
+    },
+    "license": {
+      "name": "Unlicense",
+      "url": "http://unlicense.org/"
+    }
+  },
+  "basePath": "/api",
+  "schemes": ["http"],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "externalDocs": {
+    "description": "Find more info here",
+    "url": "https://github.com/familab/accessController"
+  }
+}

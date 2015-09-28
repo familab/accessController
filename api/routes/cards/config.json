@@ -1,0 +1,16 @@
+{
+  "name": "Cards",
+  "description": "Cards Resource",
+  "routes": {
+    "GET /members/:memberId/cards": "index",
+    "GET /cards": "index",
+    "GET /members/:memberId/cards/:id": "show",
+    "GET /cards/:id": "show",
+    "POST /members/:memberId/cards": "create",
+    "POST /cards": "create",
+    "PUT /members/:memberId/cards/:id": "update",
+    "PUT /cards/:id": "update",
+    "DELETE /members/:memberId/cards/:id": "destroy",
+    "DELETE /cards/:id": "destroy"
+  }
+}

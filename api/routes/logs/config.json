@@ -1,0 +1,11 @@
+{
+  "name": "Logs",
+  "description": "Log Resource",
+  "routes": {
+    "GET /logs": "index",
+    "GET /logs/:id": "show",
+    "POST /logs": "create",
+    "PUT /logs/:id": "update",
+    "DELETE /logs/:id": "destroy"
+  }
+}
