@@ -1,51 +1,267 @@
-'use strict'
+'use strict';
 
-var db = require('../../db');
-var Logs = {}
+/**
+ * Module dependencies.
+ */
+var db = require('../../models');
 
-// Timestamp
-// MemberID
-// CardID
+/**
+ * @swagger
+ * definition:
+ *   Log:
+ *     type: object
+ *     required:
+ *       - action
+ *       - uid
+ *       - success
+ *     properties:
+ *       id:
+ *         type: integer
+ *       action:
+ *         type: string
+ *       uid:
+ *         type: string
+ *       success:
+ *         type: boolean
+ *       createdAt:
+ *         type: date
+ *       updatedAt:
+ *         type: date
+ *       deletedAt:
+ *         type: date
+ */
 
-Logs.getAll = function(req, res) {
-  var data = [];
-  db.each('SELECT ROWID as id, timestamp, uid, allowed FROM logs ORDER BY ROWID DESC LIMIT 100', function(err, row) {
-    if (err) { res.send(err); throw err; }
-    else {
-      data.push({
-        id: row.id,
-        timestamp: new Date(Date.parse(row.timestamp)),
-        uid: row.uid,
-        allowed: row.allowed == 1 ? true : false
-      });
-    }
-  }, function(err) {
-    if (err) { res.send(err); throw err; }
-    res.send(data);
-  });
+/**
+ * @swagger
+ * definition:
+ *   LogEx:
+ *     allOf:
+ *       - $ref: '#/definitions/Log'
+ *       - properties:
+ *           card:
+ *             $ref: '#/definitions/CardEx'
+ */
+
+/**
+ *@swagger
+ * definition:
+ *   Error:
+ *     type: object
+ *     properties:
+ *       error:
+ *         type: string
+ */
+
+/**
+ * GET all logs.
+ * @swagger
+ * /logs:
+ *   get:
+ *     operationId: getlogs
+ *     summary: Get all logs
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       default:
+ *         description: unexpected error
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ *       200:
+ *         description: all logs
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/LogEx'
+ */
+exports.index = function* (next) {
+  var logs = yield db.Log.findAll({ include: [
+    { model: db.Card, as: 'card', include: [
+      { model: db.Member, as: 'member'},
+    ], },
+  ], });
+
+  this.body = logs;
+  yield next;
 };
 
-Logs.getById = function(req, res) {
-  db.get('SELECT ROWID as id, timestamp, uid, allowed FROM logs WHERE ROWID = $id', [req.params.id], function(err, row) {
-    if (err) { res.send(err); throw err; }
-    else res.send(
-      {
-        id: row.id,
-        timestamp: new Date(Date.parse(row.timestamp)),
-        uid: row.uid,
-        allowed: row.allowed == 1 ? true : false
-      }
-    );
-  });
+/**
+ * GET log by :id.
+ * @swagger
+ * /logs/{id}:
+ *   get:
+ *     operationId: getlog
+ *     summary: Get log by {id}
+ *     parameters:
+ *       - name: id
+ *         description: log id
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: log
+ *         schema:
+ *           $ref: '#/definitions/LogEx'
+ *       400:
+ *         description: validation error
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ *       default:
+ *         description: unexpected error
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ */
+exports.show = function* (next) {
+  if (!this.params.id) {
+    this.throw(400, 'id required');
+  }
+  this.body = yield db.Log.findOne({ where: {id: this.params.id}, include: [
+    { model: db.Card, as: 'card', include: [
+      { model: db.Member, as: 'member'},
+    ], },
+  ], });
+  if (!this.body) {
+    this.status = 404;
+  }
+  yield next;
 };
 
-Logs.create = function(uid, allowed) {
-  var now = new Date();
-  db.run('INSERT INTO logs (timestamp, uid, allowed) VALUES (?, ?, ?)', [now.toUTCString(), uid, allowed], function(e, row){
-    if(e) {
-      return console.error('Error - Logs Create: ', e.stack || e);
-    }
-  });
-}
+/**
+ * POST a new log.
+ * @swagger
+ * /logs:
+ *   post:
+ *     operationId: createlog
+ *     summary: Create a new log
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: log
+ *         description: log to add to the system
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Log'
+ *     responses:
+ *       201:
+ *         description: created log
+ *         schema:
+ *           $ref: '#/definitions/Log'
+ *       400:
+ *         description: validation error
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ *       default:
+ *         description: unexpected error
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ */
+exports.create = function* (next) {
+  if (!this.request.body.action) {
+    this.throw(400, 'action required');
+  }
+  if (!this.request.body.uid) {
+    this.throw(400, 'uid required');
+  }
+  if (!this.request.body.success) {
+    this.throw(400, 'success required');
+  }
 
-module.exports = Logs;
+  this.status = 201;
+  this.body = yield db.Log.create(this.request.body);
+  yield next;
+};
+
+/**
+ * PUT a log
+ * @swagger
+ * /logs/{id}:
+ *   put:
+ *     operationId: updatelog
+ *     summary: Update a log
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: log id
+ *         in: path
+ *         required: true
+ *         type: integer
+ *       - name: log
+ *         description: log to update
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Log'
+ *     responses:
+ *       200:
+ *         description: updated log
+ *         schema:
+ *           $ref: '#/definitions/Log'
+ *       400:
+ *         description: validation error
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ *       default:
+ *         description: unexpected error
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ */
+exports.update = function* (next) {
+  if (!this.params.id) {
+    this.throw(400, 'id required');
+  }
+  var log = yield db.Log.findOne({ where: {id: this.params.id} });
+
+  this.body = yield log.update(this.request.body);
+  yield next;
+};
+
+/**
+ * DELETE a log
+ * @swagger
+ * /logs/{id}:
+ *   delete:
+ *     operationId: deletelog
+ *     summary: Delete a log
+ *     produces:
+ *       - application/json
+ *     consumes:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: log id
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       204:
+ *         description: log deleted
+ *       400:
+ *         description: validation error
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ *       default:
+ *         description: unexpected error
+ *         schema:
+ *           $ref: '#/definitions/Error'
+ */
+exports.destroy = function* (next) {
+  if (!this.params.id) {
+    this.throw(400, 'id required');
+  }
+  var log = yield db.Log.findOne({ where: {id: this.params.id} });
+  if (log) {
+    yield log.destroy();
+  }
+
+  this.status = 204;
+  this.body = '';
+  yield next;
+};

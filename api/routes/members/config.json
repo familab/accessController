@@ -1,0 +1,11 @@
+{
+  "name": "Members",
+  "description": "Members Account Resource",
+  "routes": {
+    "GET /members": "index",
+    "GET /members/:id": "show",
+    "POST /members": "create",
+    "PUT /members/:id": "update",
+    "DELETE /members/:id": "destroy"
+  }
+}
