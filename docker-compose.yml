@@ -1,0 +1,33 @@
+version: '2'
+services:
+  node-red:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    cap_drop:
+      - ALL
+    # cap_add:
+    #   - ALL
+    tmpfs:
+      - /run
+      - /tmp
+    read_only: true
+    volumes:
+      - nodered:/data:rw
+  mqtt:
+    image: "toke/mosquitto"
+    command:
+      - /usr/sbin/mosquitto
+      - -c
+      - /mqtt/config/mosquitto.conf
+    ports:
+      - "1883:1883"
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+    read_only: true
+volumes:
+  nodered:

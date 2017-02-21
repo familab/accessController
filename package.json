@@ -1,0 +1,28 @@
+{
+  "name": "iot-controller",
+  "version": "1.0.0",
+  "description": "* Access Control system * Reusable IOT system * Separation of concerns * Enable people with different skill sets to work on the project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Lance Hudson <lance@lancehudson.com>",
+  "license": "Unlicense",
+  "dependencies": {
+    "express": "^4.14.0",
+    "node-red": "^0.15.2",
+    "node-red-dashboard": "^2.2.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/familab/accessController.git"
+  },
+  "bugs": {
+    "url": "https://github.com/familab/accessController/issues"
+  },
+  "homepage": "https://github.com/familab/accessController#readme"
+}
