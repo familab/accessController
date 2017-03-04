@@ -21,6 +21,7 @@ services:
       - /usr/sbin/mosquitto
       - -c
       - /mqtt/config/mosquitto.conf
+      - -v
     ports:
       - "1883:1883"
     cap_drop:
