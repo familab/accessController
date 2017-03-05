@@ -10,7 +10,8 @@
   "license": "Unlicense",
   "dependencies": {
     "express": "^4.14.0",
-    "node-red": "^0.15.2",
+    "node-red": "^0.16.2",
+    "node-red-contrib-config": "^1.0.1",
     "node-red-dashboard": "^2.2.1"
   },
   "directories": {

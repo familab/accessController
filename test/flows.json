@@ -1,8 +1,8 @@
 [
     {
-        "id": "aa066d67.6cfce",
+        "id": "f25c2c2d.6ed27",
         "type": "tab",
-        "label": "Test Reader"
+        "label": "Front Door Reader"
     },
     {
         "id": "af8eb435.50eef",
@@ -13,6 +13,11 @@
         "id": "6e3c2f9f.203b8",
         "type": "tab",
         "label": "Test Relay"
+    },
+    {
+        "id": "aa066d67.6cfce",
+        "type": "tab",
+        "label": "Test Reader"
     },
     {
         "id": "cd8293c3.d0adf8",
@@ -1231,118 +1236,119 @@
         "wires": []
     },
     {
-        "id": "6a19a829.d9c398",
+        "id": "cc77d9a6.ab8a18",
         "type": "mqtt in",
-        "z": "aa066d67.6cfce",
-        "name": "heartbeatTopic",
+        "z": "f25c2c2d.6ed27",
+        "name": "heartbeat",
         "topic": "heartbeat",
         "qos": "0",
         "broker": "cd8293c3.d0adf8",
-        "x": 168,
-        "y": 705,
+        "x": 119,
+        "y": 203,
         "wires": [
             [
-                "bbff46ee.60808"
+                "217a7b4f.152bd4"
             ]
         ]
     },
     {
-        "id": "9c2186a7.392c48",
+        "id": "1c0106f4.c389d1",
         "type": "switch",
-        "z": "aa066d67.6cfce",
+        "z": "f25c2c2d.6ed27",
         "name": "isFrontDoorReader",
         "property": "payload.id",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "eq",
-                "v": "F4:FB:87:7F:CF:5C",
-                "vt": "str"
+                "v": "id",
+                "vt": "flow"
             }
         ],
         "checkall": "true",
         "outputs": 1,
-        "x": 563.5,
-        "y": 727,
+        "x": 206.5,
+        "y": 334,
         "wires": [
             [
-                "cf49d91f.398f48",
-                "5c5afaf6.e13b14",
-                "73931102.1cc858",
-                "901d18fc.d23d18",
-                "19f377af.65c5c"
+                "c7ff1ac2.0def6",
+                "5bc6205c.df7a18",
+                "e312b773.c5d7b8",
+                "3340bed4.3417c2",
+                "d7773352.e7133",
+                "8d662902.0b26b8"
             ]
         ]
     },
     {
-        "id": "5c5afaf6.e13b14",
+        "id": "5bc6205c.df7a18",
         "type": "function",
-        "z": "aa066d67.6cfce",
+        "z": "f25c2c2d.6ed27",
         "name": "isConnected",
         "func": "if(msg.payload.alive) {\n  node.status({fill:\"green\",shape:\"ring\",text:\"up\"});\n} else {\n  node.status({fill:\"red\",shape:\"ring\",text:\"down\"});\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 962,
-        "y": 731,
+        "x": 649,
+        "y": 352,
         "wires": [
             []
         ]
     },
     {
-        "id": "73931102.1cc858",
+        "id": "e312b773.c5d7b8",
         "type": "trigger",
-        "z": "aa066d67.6cfce",
-        "op1": "{\"id\":\"00:00:00:00:00:00\", \"alive\":false}",
-        "op2": "{\"id\":\"00:00:00:00:00:00\", \"alive\":false}",
+        "z": "f25c2c2d.6ed27",
+        "op1": "{\"alive\":false}",
+        "op2": "{\"alive\":false}",
         "op1type": "json",
         "op2type": "json",
-        "duration": "60",
+        "duration": "10",
         "extend": true,
         "units": "s",
         "reset": "",
         "name": "WatchDog",
-        "x": 769,
-        "y": 672,
+        "x": 456,
+        "y": 290,
         "wires": [
             [
-                "5c5afaf6.e13b14",
-                "cf49d91f.398f48"
+                "5bc6205c.df7a18",
+                "c7ff1ac2.0def6"
             ]
         ]
     },
     {
-        "id": "bbff46ee.60808",
+        "id": "217a7b4f.152bd4",
         "type": "json",
-        "z": "aa066d67.6cfce",
+        "z": "f25c2c2d.6ed27",
         "name": "",
-        "x": 333,
-        "y": 704,
+        "x": 275,
+        "y": 204,
         "wires": [
             [
-                "f9ca5983.7e8c6"
+                "b802e37e.7fa888"
             ]
         ]
     },
     {
-        "id": "cf49d91f.398f48",
+        "id": "c7ff1ac2.0def6",
         "type": "ui_text",
-        "z": "aa066d67.6cfce",
+        "z": "f25c2c2d.6ed27",
         "group": "e36fe1ec.0ae5a8",
         "order": 0,
         "width": 0,
         "height": 0,
         "name": "",
-        "label": "Front Door Reader",
+        "label": "Online",
         "format": "{{msg.payload.alive}}",
         "layout": "row-spread",
-        "x": 988,
-        "y": 814,
+        "x": 594,
+        "y": 408,
         "wires": []
     },
     {
-        "id": "f9ca5983.7e8c6",
+        "id": "b802e37e.7fa888",
         "type": "change",
-        "z": "aa066d67.6cfce",
+        "z": "f25c2c2d.6ed27",
         "name": "",
         "rules": [
             {
@@ -1358,25 +1364,25 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 479,
-        "y": 902,
+        "x": 454,
+        "y": 204,
         "wires": [
             [
-                "9c2186a7.392c48"
+                "1c0106f4.c389d1"
             ]
         ]
     },
     {
-        "id": "99c2e6d2.dc8ae8",
+        "id": "98e96d37.e10f4",
         "type": "ui_gauge",
-        "z": "aa066d67.6cfce",
+        "z": "f25c2c2d.6ed27",
         "name": "",
         "group": "e36fe1ec.0ae5a8",
         "order": 0,
         "width": 0,
         "height": 0,
         "gtype": "gage",
-        "title": "Front Door VCC",
+        "title": "VCC",
         "label": "volts",
         "format": "{{value}}",
         "min": "0",
@@ -1386,14 +1392,14 @@
             "#E6E600",
             "#CA3838"
         ],
-        "x": 964.5,
-        "y": 1065,
+        "x": 403.5,
+        "y": 495,
         "wires": []
     },
     {
-        "id": "4effc88f.b72108",
+        "id": "26db06cc.183bb2",
         "type": "ui_gauge",
-        "z": "aa066d67.6cfce",
+        "z": "f25c2c2d.6ed27",
         "name": "",
         "group": "e36fe1ec.0ae5a8",
         "order": 0,
@@ -1410,14 +1416,14 @@
             "#E6E600",
             "#CA3838"
         ],
-        "x": 961.5,
-        "y": 1012,
+        "x": 428.5,
+        "y": 451,
         "wires": []
     },
     {
-        "id": "901d18fc.d23d18",
+        "id": "3340bed4.3417c2",
         "type": "change",
-        "z": "aa066d67.6cfce",
+        "z": "f25c2c2d.6ed27",
         "name": "",
         "rules": [
             {
@@ -1433,18 +1439,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 728.5,
-        "y": 1061,
+        "x": 230.5,
+        "y": 493,
         "wires": [
             [
-                "99c2e6d2.dc8ae8"
+                "98e96d37.e10f4"
             ]
         ]
     },
     {
-        "id": "19f377af.65c5c",
+        "id": "d7773352.e7133",
         "type": "change",
-        "z": "aa066d67.6cfce",
+        "z": "f25c2c2d.6ed27",
         "name": "",
         "rules": [
             {
@@ -1460,12 +1466,125 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 730.5,
-        "y": 1009,
+        "x": 230.5,
+        "y": 449,
         "wires": [
             [
-                "4effc88f.b72108"
+                "26db06cc.183bb2"
             ]
         ]
+    },
+    {
+        "id": "89d823dc.4cf8f",
+        "type": "config",
+        "z": "f25c2c2d.6ed27",
+        "name": "Reader ID",
+        "properties": [
+            {
+                "p": "id",
+                "pt": "flow",
+                "to": "F4:FB:87:7F:CF:5C",
+                "tot": "str"
+            }
+        ],
+        "active": true,
+        "x": 131.5,
+        "y": 143,
+        "wires": []
+    },
+    {
+        "id": "d82c237b.99be",
+        "type": "inject",
+        "z": "f25c2c2d.6ed27",
+        "name": "Reboot",
+        "topic": "",
+        "payload": "{\"command\": \"reboot\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 111.5,
+        "y": 567,
+        "wires": [
+            [
+                "75098e82.9641c8"
+            ]
+        ]
+    },
+    {
+        "id": "1d07a523.921d0b",
+        "type": "ui_button",
+        "z": "f25c2c2d.6ed27",
+        "name": "",
+        "group": "e36fe1ec.0ae5a8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "Reboot",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "{\"command\": \"reboot\"}",
+        "payloadType": "str",
+        "topic": "",
+        "x": 101.5,
+        "y": 625,
+        "wires": [
+            [
+                "75098e82.9641c8"
+            ]
+        ]
+    },
+    {
+        "id": "9076a0ec.2c09d8",
+        "type": "mqtt out",
+        "z": "f25c2c2d.6ed27",
+        "name": "cmdTopic",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "cd8293c3.d0adf8",
+        "x": 534.5,
+        "y": 567,
+        "wires": []
+    },
+    {
+        "id": "75098e82.9641c8",
+        "type": "change",
+        "z": "f25c2c2d.6ed27",
+        "name": "set Reader ID",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "id",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 292.5,
+        "y": 606,
+        "wires": [
+            [
+                "9076a0ec.2c09d8"
+            ]
+        ]
+    },
+    {
+        "id": "8d662902.0b26b8",
+        "type": "debug",
+        "z": "f25c2c2d.6ed27",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 710.5,
+        "y": 293,
+        "wires": []
     }
 ]

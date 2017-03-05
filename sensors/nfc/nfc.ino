@@ -265,50 +265,58 @@ void mqtt_processMessage(char* topic, byte* payload, uint8_t length) {
     return;
   }
 
-  const char* animation = root["animation"];
-  String animationString = String(animation);
-
-  if(animationString == "solid_black") {
-    switchState(solid_black);
-  } else if (animationString == "solid_green") {
-    switchState(solid_green);
-  } else if (animationString == "solid_red") {
-    switchState(solid_red);
-  } else if (animationString == "solid_yellow") {
-    switchState(solid_yellow);
-  } else if (animationString == "twist_blue") {
-    switchState(twist_blue);
-  } else if (animationString == "twist_green") {
-    switchState(twist_green);
-  } else if (animationString == "twist_red") {
-    switchState(twist_red);
-  } else if (animationString == "twist_yellow") {
-    switchState(twist_yellow);
-  } else if (animationString == "pulse_corners_blue") {
-    switchState(pulse_corners_blue);
-  } else if (animationString == "pulse_corners_green") {
-    switchState(pulse_corners_green);
-  } else if (animationString == "pulse_corners_red") {
-    switchState(pulse_corners_red);
-  } else if (animationString == "pulse_corners_yellow") {
-    switchState(pulse_corners_yellow);
-  } else if (animationString == "pulse_blue") {
-    switchState(pulse_blue);
-  } else if (animationString == "pulse_green") {
-    switchState(pulse_green);
-  } else if (animationString == "pulse_yellow") {
-    switchState(pulse_yellow);
-  } else if (animationString == "pulse_red") {
-    switchState(pulse_red);
-  } else if (animationString == "cylon_blue") {
-    switchState(cylon_blue);
-  } else if (animationString == "cylon_red") {
-    switchState(cylon_red);
-  } else if (animationString == "cylon_green") {
-    switchState(cylon_green);
-  } else if (animationString == "cylon_yellow") {
-    switchState(cylon_yellow);
-  } else {}
+  if(root.containsKey("animation")) {
+    const char* animation = root["animation"];
+    String animationString = String(animation);
+  
+    if(animationString == "solid_black") {
+      switchState(solid_black);
+    } else if (animationString == "solid_green") {
+      switchState(solid_green);
+    } else if (animationString == "solid_red") {
+      switchState(solid_red);
+    } else if (animationString == "solid_yellow") {
+      switchState(solid_yellow);
+    } else if (animationString == "twist_blue") {
+      switchState(twist_blue);
+    } else if (animationString == "twist_green") {
+      switchState(twist_green);
+    } else if (animationString == "twist_red") {
+      switchState(twist_red);
+    } else if (animationString == "twist_yellow") {
+      switchState(twist_yellow);
+    } else if (animationString == "pulse_corners_blue") {
+      switchState(pulse_corners_blue);
+    } else if (animationString == "pulse_corners_green") {
+      switchState(pulse_corners_green);
+    } else if (animationString == "pulse_corners_red") {
+      switchState(pulse_corners_red);
+    } else if (animationString == "pulse_corners_yellow") {
+      switchState(pulse_corners_yellow);
+    } else if (animationString == "pulse_blue") {
+      switchState(pulse_blue);
+    } else if (animationString == "pulse_green") {
+      switchState(pulse_green);
+    } else if (animationString == "pulse_yellow") {
+      switchState(pulse_yellow);
+    } else if (animationString == "pulse_red") {
+      switchState(pulse_red);
+    } else if (animationString == "cylon_blue") {
+      switchState(cylon_blue);
+    } else if (animationString == "cylon_red") {
+      switchState(cylon_red);
+    } else if (animationString == "cylon_green") {
+      switchState(cylon_green);
+    } else if (animationString == "cylon_yellow") {
+      switchState(cylon_yellow);
+    } else {}
+  } else if(root.containsKey("command")) {
+    const char* command = root["command"];
+    String commandString = String(command);
+    if(commandString == "reboot") {
+      ESP.restart();
+    }
+  }
 }
 
 void mqtt_publish(const char* topic, String payload) {
@@ -326,6 +334,24 @@ void mqtt_publish(const char* topic, String payload) {
   #endif
 
   client.publish(topic, buffer, strlen(buffer));
+}
+
+void heartbeat(bool force) {
+  if(force) {
+    sendHeartbeat();
+  } else {
+    heartbeat();
+  }
+}
+
+void heartbeat() {
+  EVERY_N_MILLISECONDS(5000) {
+    sendHeartbeat();
+  }
+}
+
+void sendHeartbeat() {
+  mqtt_publish(mqtt_heartbeat_topic, "{\"id\": \"" + String(mac) + "\", \"rssi\": " + WiFi.RSSI() + ", \"vcc\": " + ESP.getVcc()/1024.00f + "}");
 }
 
 // Setup
@@ -555,13 +581,15 @@ void mqttLoop() {
       #if defined DEBUG
         Serial.println(F("Attempting MQTT connection..."));
       #endif
+      
       if(client.connect((char*)mac, mqtt_username, mqtt_password)) {
         #if defined DEBUG
           Serial.print(F("Connected to "));
           Serial.println(mqtt_server);
         #endif
-        mqtt_publish(mqtt_accounce_topic, "{\"id\": \"" + String(mac) + "\"}");
         client.subscribe((char*)mac);
+        mqtt_publish(mqtt_accounce_topic, "{\"id\": \"" + String(mac) + "\"}");
+        heartbeat(true);
       } else {
         #if defined DEBUG
           Serial.print(F("failed, rc="));
@@ -570,9 +598,7 @@ void mqttLoop() {
       }
       break;
   }
-  EVERY_N_MILLISECONDS(30000) {
-    mqtt_publish(mqtt_heartbeat_topic, "{\"id\": \"" + String(mac) + "\", \"rssi\": " + WiFi.RSSI() + ", \"vcc\": " + ESP.getVcc()/1024.00f + "}");
-  }
+  heartbeat();
 }
 
 void loop() {
