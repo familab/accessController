@@ -475,7 +475,7 @@
         "id": "454bb956.e61d08",
         "type": "change",
         "z": "af8eb435.50eef",
-        "name": "setAllowedAnimation",
+        "name": "setGreenAllowedAnimation",
         "rules": [
             {
                 "t": "set",
@@ -490,8 +490,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 849.5,
-        "y": 528,
+        "x": 820,
+        "y": 520,
         "wires": [
             [
                 "644541c2.32544",
@@ -519,8 +519,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 570.5,
-        "y": 551,
+        "x": 540,
+        "y": 620,
         "wires": [
             [
                 "644541c2.32544",
@@ -601,8 +601,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 894.5,
-        "y": 712,
+        "x": 900,
+        "y": 700,
         "wires": [
             [
                 "920682fb.898f3",
@@ -673,8 +673,8 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
-        "x": 1062.5,
-        "y": 430,
+        "x": 1140,
+        "y": 380,
         "wires": [
             [
                 "a489d4bd.0c7338"
@@ -740,7 +740,8 @@
         "y": 117,
         "wires": [
             [
-                "8c84ccfa.d5cc28"
+                "8c84ccfa.d5cc28",
+                "f49a09a.fa12578"
             ]
         ]
     },
@@ -819,7 +820,7 @@
         "type": "function",
         "z": "af8eb435.50eef",
         "name": "setOverride",
-        "func": "flow.set('override', msg.payload);\nreturn msg;",
+        "func": "flow.set('override', msg.payload);\nmsg.payload = {\n    state: msg.payload\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 172.5,
@@ -866,8 +867,8 @@
         ],
         "checkall": "true",
         "outputs": 1,
-        "x": 473,
-        "y": 650,
+        "x": 470,
+        "y": 700,
         "wires": [
             [
                 "cdb89da8.000118"
@@ -901,7 +902,7 @@
         "type": "switch",
         "z": "af8eb435.50eef",
         "name": "isOverride",
-        "property": "payload",
+        "property": "payload.state",
         "propertyType": "msg",
         "rules": [
             {
@@ -917,8 +918,8 @@
         "y": 494,
         "wires": [
             [
-                "454bb956.e61d08",
-                "2e49a845.5f4f6"
+                "2e49a845.5f4f6",
+                "de76622a.b546"
             ],
             [
                 "cfb1b873.3a779",
@@ -1580,7 +1581,7 @@
                 "t": "set",
                 "p": "payload.vcc",
                 "pt": "msg",
-                "to": "5",
+                "to": "3.3",
                 "tot": "num"
             }
         ],
@@ -1911,8 +1912,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1396.5,
-        "y": 465,
+        "x": 1360,
+        "y": 460,
         "wires": [
             [
                 "b9fb30b0.8563d8"
@@ -2115,6 +2116,225 @@
             [
                 "b2780e78.7203f",
                 "65aacb1a.d8c42c"
+            ]
+        ]
+    },
+    {
+        "id": "de76622a.b546",
+        "type": "change",
+        "z": "af8eb435.50eef",
+        "name": "setBlueAllowedAnimation",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"animation\": \"pulse_blue\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 560,
+        "wires": [
+            [
+                "644541c2.32544",
+                "60d04b0e.96899c",
+                "920682fb.898f3"
+            ]
+        ]
+    },
+    {
+        "id": "13bfd3f7.04e72c",
+        "type": "mqtt in",
+        "z": "af8eb435.50eef",
+        "name": "",
+        "topic": "announce",
+        "qos": "0",
+        "broker": "cd8293c3.d0adf8",
+        "x": 110,
+        "y": 840,
+        "wires": [
+            [
+                "4eb0095b.c7fac8"
+            ]
+        ]
+    },
+    {
+        "id": "4eb0095b.c7fac8",
+        "type": "json",
+        "z": "af8eb435.50eef",
+        "name": "",
+        "x": 270,
+        "y": 840,
+        "wires": [
+            [
+                "2b9a4e04.39c6e2"
+            ]
+        ]
+    },
+    {
+        "id": "2b9a4e04.39c6e2",
+        "type": "switch",
+        "z": "af8eb435.50eef",
+        "name": "",
+        "property": "payload.id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "id",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "testId",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "controlId",
+                "vt": "flow"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 3,
+        "x": 430,
+        "y": 840,
+        "wires": [
+            [
+                "921f262e.26af"
+            ],
+            [
+                "921f262e.26af"
+            ],
+            [
+                "ed30f425.cd7be"
+            ]
+        ]
+    },
+    {
+        "id": "921f262e.26af",
+        "type": "switch",
+        "z": "af8eb435.50eef",
+        "name": "isOverride",
+        "property": "override",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 610,
+        "y": 780,
+        "wires": [
+            [
+                "de76622a.b546"
+            ]
+        ]
+    },
+    {
+        "id": "ed30f425.cd7be",
+        "type": "switch",
+        "z": "af8eb435.50eef",
+        "name": "isOverride",
+        "property": "override",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 2,
+        "x": 610,
+        "y": 840,
+        "wires": [
+            [
+                "2e49a845.5f4f6"
+            ],
+            [
+                "a489d4bd.0c7338"
+            ]
+        ]
+    },
+    {
+        "id": "f49a09a.fa12578",
+        "type": "debug",
+        "z": "6e3c2f9f.203b8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 400,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "bc6a72f1.dbe9",
+        "type": "inject",
+        "z": "6e3c2f9f.203b8",
+        "name": "annouce",
+        "topic": "",
+        "payload": "id",
+        "payloadType": "flow",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 120,
+        "y": 400,
+        "wires": [
+            [
+                "a7b716bb.7d2d68"
+            ]
+        ]
+    },
+    {
+        "id": "feeef863.94c62",
+        "type": "mqtt out",
+        "z": "6e3c2f9f.203b8",
+        "name": "announce",
+        "topic": "announce",
+        "qos": "",
+        "retain": "",
+        "broker": "cd8293c3.d0adf8",
+        "x": 527,
+        "y": 401,
+        "wires": []
+    },
+    {
+        "id": "a7b716bb.7d2d68",
+        "type": "change",
+        "z": "6e3c2f9f.203b8",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.id",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 321,
+        "y": 400,
+        "wires": [
+            [
+                "feeef863.94c62"
             ]
         ]
     }
