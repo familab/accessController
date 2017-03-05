@@ -10,14 +10,14 @@
         "label": "Front Door Handler"
     },
     {
-        "id": "6e3c2f9f.203b8",
-        "type": "tab",
-        "label": "Test Relay"
-    },
-    {
         "id": "aa066d67.6cfce",
         "type": "tab",
         "label": "Test Reader"
+    },
+    {
+        "id": "6e3c2f9f.203b8",
+        "type": "tab",
+        "label": "Test Relay"
     },
     {
         "id": "cd8293c3.d0adf8",
@@ -52,14 +52,96 @@
         "z": "",
         "name": "Front Door",
         "tab": "b7459bd6.cc96b8",
+        "order": 1,
         "disp": true,
         "width": "6"
     },
     {
         "id": "1ad2398b.a17406",
         "type": "ui_base",
-        "name": "Node-RED Dashboard",
-        "theme": "theme-light"
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "Helvetica Neue",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "Helvetica Neue",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "Helvetica Neue",
+                "reset": false
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#000000",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#10cfd8",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                }
+            }
+        },
+        "site": {
+            "name": "FamiLAB IOT Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
     },
     {
         "id": "657aacd1.aa587c",
@@ -77,6 +159,7 @@
         "z": "",
         "name": "Sensors",
         "tab": "b7459bd6.cc96b8",
+        "order": 4,
         "disp": true,
         "width": "6"
     },
@@ -96,6 +179,17 @@
         "z": "",
         "name": "Front Door Reader",
         "tab": "b7459bd6.cc96b8",
+        "order": 2,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "d44b5357.d71a2",
+        "type": "ui_group",
+        "z": "",
+        "name": "Test Reader",
+        "tab": "b7459bd6.cc96b8",
+        "order": 3,
         "disp": true,
         "width": "6"
     },
@@ -105,16 +199,16 @@
         "z": "aa066d67.6cfce",
         "name": "Test Card Read",
         "topic": "",
-        "payload": "{ \"id\": \"00:00:00:00:00:00\", \"uid\": \"01020304050607\" }",
+        "payload": "{\"uid\": \"01020304050607\" }",
         "payloadType": "json",
         "repeat": "",
         "crontab": "",
         "once": false,
-        "x": 178.5,
-        "y": 166,
+        "x": 149.5,
+        "y": 235,
         "wires": [
             [
-                "83255b0f.fbc27"
+                "cd476388.5e04c8"
             ]
         ]
     },
@@ -122,25 +216,25 @@
         "id": "83255b0f.fbc27",
         "type": "mqtt out",
         "z": "aa066d67.6cfce",
-        "name": "nfcTopic",
+        "name": "nfc",
         "topic": "nfc",
-        "qos": "2",
+        "qos": "0",
         "retain": "false",
         "broker": "cd8293c3.d0adf8",
-        "x": 421.5,
-        "y": 176,
+        "x": 520.5,
+        "y": 235,
         "wires": []
     },
     {
         "id": "bb27d8c9.a192d",
         "type": "mqtt in",
         "z": "aa066d67.6cfce",
-        "name": "cmdTopic",
+        "name": "cmd",
         "topic": "00:00:00:00:00:00",
         "qos": "2",
         "broker": "cd8293c3.d0adf8",
-        "x": 140.5,
-        "y": 273,
+        "x": 97.5,
+        "y": 337,
         "wires": [
             [
                 "233688d7.123c58"
@@ -151,12 +245,12 @@
         "id": "c38ad58d.79d78",
         "type": "mqtt in",
         "z": "af8eb435.50eef",
-        "name": "nfcTopic",
+        "name": "nfc",
         "topic": "nfc",
-        "qos": "2",
+        "qos": "0",
         "broker": "cd8293c3.d0adf8",
-        "x": 355.5,
-        "y": 129,
+        "x": 73.5,
+        "y": 118,
         "wires": [
             [
                 "a035ec86.517ca"
@@ -173,19 +267,19 @@
         "rules": [
             {
                 "t": "eq",
-                "v": "00:00:00:00:00:00",
-                "vt": "str"
+                "v": "id",
+                "vt": "flow"
             },
             {
                 "t": "eq",
-                "v": "F4:FB:87:7F:CF:5C",
-                "vt": "str"
+                "v": "testId",
+                "vt": "flow"
             }
         ],
-        "checkall": "true",
+        "checkall": "false",
         "outputs": 2,
-        "x": 754.5,
-        "y": 126,
+        "x": 157.5,
+        "y": 213,
         "wires": [
             [
                 "439b4ae.bff5634",
@@ -212,8 +306,8 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": true,
-        "x": 958.5,
-        "y": 129,
+        "x": 355.5,
+        "y": 233,
         "wires": [
             [
                 "909305ae.58994"
@@ -225,8 +319,8 @@
         "type": "json",
         "z": "af8eb435.50eef",
         "name": "",
-        "x": 581.5,
-        "y": 130,
+        "x": 232.5,
+        "y": 118,
         "wires": [
             [
                 "e218109.f2c717"
@@ -245,8 +339,8 @@
         "label": "Last UID",
         "format": "{{msg.payload.uid}}",
         "layout": "row-spread",
-        "x": 975.5,
-        "y": 270,
+        "x": 366.5,
+        "y": 167,
         "wires": []
     },
     {
@@ -254,14 +348,15 @@
         "type": "function",
         "z": "af8eb435.50eef",
         "name": "Load User",
-        "func": "if(msg.payload.uid == \"01020304050607\") {\n    msg.user = {\n        id: 1,\n        name: \"testUser\",\n        email: \"test@familab.org\",\n        active: true\n    }\n} else if(msg.payload.uid == \"044388726D4880\") {\n    msg.user = {\n        id: 2,\n        name: \"Lance\",\n        email: \"lance@familab.org\",\n        active: true\n    }\n} else {\n   msg.user = {\n       id: 0,\n       name: \"Anonymous\",\n       active: false\n   };\n}\nreturn msg;",
+        "func": "if(msg.payload.uid == \"01020304050607\") {\n    msg.user = {\n        id: 1,\n        name: \"testUser\",\n        email: \"test@familab.org\",\n        active: true\n    }\n} else if(msg.payload.uid == \"044388726D4880\") {\n    msg.user = {\n        id: 2,\n        name: \"Lance\",\n        email: \"lance@familab.org\",\n        active: true\n    }\n} else {\n   msg.user = {\n       id: 0,\n       name: \"Anonymous\",\n       active: false\n   };\n}\nnode.status({fill:\"green\",shape:\"ring\",text:msg.user.name});\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1294.5,
-        "y": 116,
+        "x": 398.5,
+        "y": 326,
         "wires": [
             [
-                "97bd7226.525308"
+                "97bd7226.525308",
+                "67ddbf0d.b668e"
             ]
         ]
     },
@@ -273,14 +368,13 @@
         "func": "if(msg.user.active) {\n    msg.accessAllowed = true;\n} else {\n   msg.accessAllowed = false; \n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1712.5,
-        "y": 101,
+        "x": 605.5,
+        "y": 329,
         "wires": [
             [
                 "921762d6.8e7908",
                 "89906bec.63e898",
-                "da2c8690.5db11",
-                "67ddbf0d.b668e"
+                "da2c8690.5db11"
             ]
         ]
     },
@@ -301,8 +395,8 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 2189.5,
-        "y": 320,
+        "x": 448.5,
+        "y": 446,
         "wires": [
             [
                 "454bb956.e61d08",
@@ -321,8 +415,8 @@
         "func": "node.log(msg.logEntry);",
         "outputs": 1,
         "noerr": 0,
-        "x": 2181.5,
-        "y": 88,
+        "x": 1074.5,
+        "y": 316,
         "wires": [
             []
         ]
@@ -337,8 +431,8 @@
         "format": "handlebars",
         "syntax": "mustache",
         "template": "{{user.name}} (0x{{payload.uid}}) was {{#accessAllowed}}allowed{{/accessAllowed}}{{^accessAllowed}}denied{{/accessAllowed}} access to {{payload.readerId}}",
-        "x": 1965.5,
-        "y": 85,
+        "x": 816.5,
+        "y": 326,
         "wires": [
             [
                 "81b44999.e5e0d"
@@ -357,8 +451,8 @@
         "label": "Allowed",
         "format": "{{msg.accessAllowed}}",
         "layout": "row-spread",
-        "x": 1964.5,
-        "y": 352,
+        "x": 773.5,
+        "y": 249,
         "wires": []
     },
     {
@@ -373,8 +467,8 @@
         "label": "User",
         "format": "{{msg.user.name}}",
         "layout": "row-spread",
-        "x": 1948.5,
-        "y": 270,
+        "x": 578.5,
+        "y": 251,
         "wires": []
     },
     {
@@ -396,28 +490,15 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 2727.5,
-        "y": 448,
+        "x": 849.5,
+        "y": 528,
         "wires": [
             [
-                "57bc9094.b66448",
                 "644541c2.32544",
-                "af446ea2.e5509"
+                "60d04b0e.96899c",
+                "920682fb.898f3"
             ]
         ]
-    },
-    {
-        "id": "57bc9094.b66448",
-        "type": "mqtt out",
-        "z": "af8eb435.50eef",
-        "name": "cmdTopic",
-        "topic": "00:00:00:00:00:00",
-        "qos": "2",
-        "retain": "false",
-        "broker": "cd8293c3.d0adf8",
-        "x": 3588.5,
-        "y": 432,
-        "wires": []
     },
     {
         "id": "ec0a8f45.30be78",
@@ -438,13 +519,13 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 2724.5,
-        "y": 491,
+        "x": 570.5,
+        "y": 551,
         "wires": [
             [
-                "57bc9094.b66448",
                 "644541c2.32544",
-                "af446ea2.e5509"
+                "60d04b0e.96899c",
+                "920682fb.898f3"
             ]
         ]
     },
@@ -463,8 +544,8 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
-        "x": 3237.5,
-        "y": 492,
+        "x": 640.5,
+        "y": 717,
         "wires": [
             [
                 "cfb1b873.3a779"
@@ -475,7 +556,7 @@
         "id": "8a191626.eeac78",
         "type": "ui_text",
         "z": "aa066d67.6cfce",
-        "group": "3b412734.eb65a8",
+        "group": "d44b5357.d71a2",
         "order": 7,
         "width": 0,
         "height": 0,
@@ -483,8 +564,8 @@
         "label": "Animation",
         "format": "{{msg.payload.animation}}",
         "layout": "row-spread",
-        "x": 503.5,
-        "y": 295,
+        "x": 384.5,
+        "y": 357,
         "wires": []
     },
     {
@@ -492,8 +573,8 @@
         "type": "json",
         "z": "aa066d67.6cfce",
         "name": "",
-        "x": 320.5,
-        "y": 276,
+        "x": 228.5,
+        "y": 336,
         "wires": [
             [
                 "64402c08.5ec26c",
@@ -520,12 +601,12 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 3403.5,
-        "y": 396,
+        "x": 894.5,
+        "y": 712,
         "wires": [
             [
-                "57bc9094.b66448",
-                "af446ea2.e5509"
+                "920682fb.898f3",
+                "60d04b0e.96899c"
             ]
         ]
     },
@@ -533,13 +614,13 @@
         "id": "b9fb30b0.8563d8",
         "type": "mqtt out",
         "z": "af8eb435.50eef",
-        "name": "controlTopic",
-        "topic": "control",
-        "qos": "2",
+        "name": "control",
+        "topic": "",
+        "qos": "",
         "retain": "",
         "broker": "cd8293c3.d0adf8",
-        "x": 3599.5,
-        "y": 140,
+        "x": 1574.5,
+        "y": 466,
         "wires": []
     },
     {
@@ -550,10 +631,17 @@
         "rules": [
             {
                 "t": "set",
-                "p": "payload",
+                "p": "payload.controlId",
                 "pt": "msg",
-                "to": "{\"controlId\": \"test\", \"state\": 1}",
-                "tot": "json"
+                "to": "controlId",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "payload.state",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
             }
         ],
         "action": "",
@@ -561,12 +649,12 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 2719.5,
-        "y": 187,
+        "x": 862.5,
+        "y": 453,
         "wires": [
             [
-                "b9fb30b0.8563d8",
-                "57b2a1a9.b4efd8"
+                "57b2a1a9.b4efd8",
+                "bf7581e9.3af"
             ]
         ]
     },
@@ -585,8 +673,8 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
-        "x": 3204.5,
-        "y": 95,
+        "x": 1062.5,
+        "y": 430,
         "wires": [
             [
                 "a489d4bd.0c7338"
@@ -601,10 +689,17 @@
         "rules": [
             {
                 "t": "set",
-                "p": "payload",
+                "p": "payload.controlId",
                 "pt": "msg",
-                "to": "{\"controlId\": \"test\", \"state\": 0}",
-                "tot": "str"
+                "to": "controlId",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "payload.state",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
             }
         ],
         "action": "",
@@ -612,11 +707,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 3377.5,
-        "y": 206,
+        "x": 1181.5,
+        "y": 494,
         "wires": [
             [
-                "b9fb30b0.8563d8"
+                "bf7581e9.3af"
             ]
         ]
     },
@@ -624,12 +719,12 @@
         "id": "b75c75a5.1a678",
         "type": "mqtt in",
         "z": "6e3c2f9f.203b8",
-        "name": "controlTopic",
-        "topic": "control",
+        "name": "control",
+        "topic": "test",
         "qos": "2",
         "broker": "cd8293c3.d0adf8",
-        "x": 165.5,
-        "y": 169,
+        "x": 96.5,
+        "y": 112,
         "wires": [
             [
                 "b5c59932.6d041"
@@ -641,32 +736,8 @@
         "type": "json",
         "z": "6e3c2f9f.203b8",
         "name": "",
-        "x": 364.5,
-        "y": 169,
-        "wires": [
-            [
-                "2fd20627.a6bbda"
-            ]
-        ]
-    },
-    {
-        "id": "2fd20627.a6bbda",
-        "type": "switch",
-        "z": "6e3c2f9f.203b8",
-        "name": "isTestControl",
-        "property": "payload.controlId",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "test",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "outputs": 1,
-        "x": 548.5,
-        "y": 178,
+        "x": 242.5,
+        "y": 117,
         "wires": [
             [
                 "8c84ccfa.d5cc28"
@@ -685,8 +756,8 @@
         "label": "Door State",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
-        "x": 933.5,
-        "y": 173,
+        "x": 609.5,
+        "y": 123,
         "wires": []
     },
     {
@@ -710,8 +781,8 @@
         "offvalueType": "bool",
         "officon": "",
         "offcolor": "",
-        "x": 2081.5,
-        "y": 193,
+        "x": 167.5,
+        "y": 387,
         "wires": [
             [
                 "96b65cdb.e31c98"
@@ -731,11 +802,11 @@
         "color": "",
         "bgcolor": "",
         "icon": "",
-        "payload": "",
-        "payloadType": "str",
+        "payload": "{}",
+        "payloadType": "json",
         "topic": "",
-        "x": 2486.5,
-        "y": 102,
+        "x": 646.5,
+        "y": 398,
         "wires": [
             [
                 "2e49a845.5f4f6",
@@ -751,8 +822,8 @@
         "func": "flow.set('override', msg.payload);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 2245.5,
-        "y": 197,
+        "x": 172.5,
+        "y": 442,
         "wires": [
             [
                 "147a8583.9918ca"
@@ -773,8 +844,8 @@
         ],
         "checkall": "true",
         "outputs": 1,
-        "x": 1111.5,
-        "y": 132,
+        "x": 202.5,
+        "y": 328,
         "wires": [
             [
                 "eb6c93a9.4f7d9"
@@ -795,8 +866,8 @@
         ],
         "checkall": "true",
         "outputs": 1,
-        "x": 3032,
-        "y": 502,
+        "x": 473,
+        "y": 650,
         "wires": [
             [
                 "cdb89da8.000118"
@@ -817,8 +888,8 @@
         ],
         "checkall": "true",
         "outputs": 1,
-        "x": 3009,
-        "y": 109,
+        "x": 983,
+        "y": 369,
         "wires": [
             [
                 "2d354980.e2d486"
@@ -842,8 +913,8 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 2492.5,
-        "y": 297,
+        "x": 177.5,
+        "y": 494,
         "wires": [
             [
                 "454bb956.e61d08",
@@ -863,89 +934,11 @@
         "func": "if(msg.payload.state) {\n  msg.payload = \"unlocked\";\n  node.status({fill:\"green\",shape:\"ring\",text:\"unlocked\"});\n  return msg;\n} else {\n  msg.payload = \"locked\";\n  node.status({fill:\"red\",shape:\"ring\",text:\"locked\"});\n  return msg;\n}\n    \n    \n",
         "outputs": 1,
         "noerr": 0,
-        "x": 754.5,
-        "y": 225,
+        "x": 435.5,
+        "y": 122,
         "wires": [
             [
                 "4e3678ce.41ff4"
-            ]
-        ]
-    },
-    {
-        "id": "bd56809f.247cd",
-        "type": "mqtt in",
-        "z": "aa066d67.6cfce",
-        "name": "heartbeatTopic",
-        "topic": "heartbeat",
-        "qos": "0",
-        "broker": "cd8293c3.d0adf8",
-        "x": 134.5,
-        "y": 400,
-        "wires": [
-            [
-                "bf705ec0.701358"
-            ]
-        ]
-    },
-    {
-        "id": "412b2485.b07214",
-        "type": "switch",
-        "z": "aa066d67.6cfce",
-        "name": "isTest",
-        "property": "payload.id",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "00:00:00:00:00:00",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "outputs": 1,
-        "x": 490,
-        "y": 422,
-        "wires": [
-            [
-                "58b0655b.70f384",
-                "ba963c19.cfb36",
-                "9b132be4.ac0888"
-            ]
-        ]
-    },
-    {
-        "id": "ba963c19.cfb36",
-        "type": "function",
-        "z": "aa066d67.6cfce",
-        "name": "isConnected",
-        "func": "if(msg.payload.alive) {\n  node.status({fill:\"green\",shape:\"ring\",text:\"up\"});\n} else {\n  node.status({fill:\"red\",shape:\"ring\",text:\"down\"});\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 928.5,
-        "y": 426,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "9b132be4.ac0888",
-        "type": "trigger",
-        "z": "aa066d67.6cfce",
-        "op1": "{\"id\":\"00:00:00:00:00:00\", \"alive\":false}",
-        "op2": "{\"id\":\"00:00:00:00:00:00\", \"alive\":false}",
-        "op1type": "json",
-        "op2type": "json",
-        "duration": "60",
-        "extend": true,
-        "units": "s",
-        "reset": "",
-        "name": "WatchDog",
-        "x": 666.5,
-        "y": 527,
-        "wires": [
-            [
-                "ba963c19.cfb36",
-                "58b0655b.70f384"
             ]
         ]
     },
@@ -955,16 +948,16 @@
         "z": "aa066d67.6cfce",
         "name": "heartbeat",
         "topic": "",
-        "payload": "{ \"id\": \"00:00:00:00:00:00\", \"rssi\": -61, \"vcc\": 2.67 }",
-        "payloadType": "json",
-        "repeat": "30",
+        "payload": "id",
+        "payloadType": "flow",
+        "repeat": "5",
         "crontab": "",
         "once": true,
-        "x": 171.5,
-        "y": 107,
+        "x": 137.5,
+        "y": 178,
         "wires": [
             [
-                "4bb49e58.1cdd5"
+                "1b95f985.642c1e"
             ]
         ]
     },
@@ -972,54 +965,25 @@
         "id": "4bb49e58.1cdd5",
         "type": "mqtt out",
         "z": "aa066d67.6cfce",
-        "name": "heartbeatTopic",
+        "name": "heartbeat",
         "topic": "heartbeat",
         "qos": "0",
         "retain": "false",
         "broker": "cd8293c3.d0adf8",
-        "x": 434.5,
-        "y": 111,
-        "wires": []
-    },
-    {
-        "id": "bf705ec0.701358",
-        "type": "json",
-        "z": "aa066d67.6cfce",
-        "name": "",
-        "x": 299.5,
-        "y": 399,
-        "wires": [
-            [
-                "839b52d6.70d62"
-            ]
-        ]
-    },
-    {
-        "id": "58b0655b.70f384",
-        "type": "ui_text",
-        "z": "aa066d67.6cfce",
-        "group": "5303cc94.8a4b2c",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "Test Reader",
-        "format": "{{msg.payload.alive}}",
-        "layout": "row-spread",
-        "x": 934.5,
-        "y": 509,
+        "x": 523.5,
+        "y": 181,
         "wires": []
     },
     {
         "id": "9990e58d.76d798",
         "type": "mqtt in",
         "z": "6e3c2f9f.203b8",
-        "name": "heartbeatTopic",
+        "name": "heartbeat",
         "topic": "heartbeat",
         "qos": "0",
         "broker": "cd8293c3.d0adf8",
-        "x": 185,
-        "y": 327,
+        "x": 109,
+        "y": 214,
         "wires": [
             [
                 "ba859080.9fef4"
@@ -1030,20 +994,20 @@
         "id": "a64e4b6.08152b8",
         "type": "switch",
         "z": "6e3c2f9f.203b8",
-        "name": "isTestR",
+        "name": "isController",
         "property": "payload.id",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "eq",
-                "v": "testR",
-                "vt": "str"
+                "v": "id",
+                "vt": "flow"
             }
         ],
         "checkall": "true",
         "outputs": 1,
-        "x": 531.5,
-        "y": 329,
+        "x": 424.5,
+        "y": 219,
         "wires": [
             [
                 "af8ac009.1b44d8",
@@ -1060,8 +1024,8 @@
         "func": "if(msg.payload.alive) {\n  node.status({fill:\"green\",shape:\"ring\",text:\"up\"});\n} else {\n  node.status({fill:\"red\",shape:\"ring\",text:\"down\"});\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 979,
-        "y": 353,
+        "x": 817,
+        "y": 314,
         "wires": [
             []
         ]
@@ -1070,17 +1034,17 @@
         "id": "403e51c1.a0d5f",
         "type": "trigger",
         "z": "6e3c2f9f.203b8",
-        "op1": "{\"id\":\"testR\", \"alive\":false}",
-        "op2": "{\"id\":\"testR\", \"alive\":false}",
+        "op1": "{\"alive\":false}",
+        "op2": "{\"alive\":false}",
         "op1type": "json",
         "op2type": "json",
-        "duration": "30",
+        "duration": "10",
         "extend": true,
         "units": "s",
         "reset": "",
         "name": "WatchDog",
-        "x": 710,
-        "y": 414,
+        "x": 634,
+        "y": 199,
         "wires": [
             [
                 "af8ac009.1b44d8",
@@ -1093,8 +1057,8 @@
         "type": "json",
         "z": "6e3c2f9f.203b8",
         "name": "",
-        "x": 350,
-        "y": 326,
+        "x": 252,
+        "y": 216,
         "wires": [
             [
                 "a64e4b6.08152b8"
@@ -1113,8 +1077,8 @@
         "label": "Test Relay",
         "format": "{{msg.payload.alive}}",
         "layout": "row-spread",
-        "x": 985,
-        "y": 436,
+        "x": 809,
+        "y": 378,
         "wires": []
     },
     {
@@ -1123,16 +1087,16 @@
         "z": "6e3c2f9f.203b8",
         "name": "heartbeat",
         "topic": "",
-        "payload": "{\"id\":\"testR\", \"alive\":true}",
+        "payload": "{\"alive\":true}",
         "payloadType": "json",
-        "repeat": "15",
+        "repeat": "5",
         "crontab": "",
         "once": true,
-        "x": 186,
-        "y": 437,
+        "x": 142,
+        "y": 329,
         "wires": [
             [
-                "7c59fe51.3d1f78"
+                "a8aad87c.c2d6b"
             ]
         ]
     },
@@ -1140,25 +1104,25 @@
         "id": "7c59fe51.3d1f78",
         "type": "mqtt out",
         "z": "6e3c2f9f.203b8",
-        "name": "heartbeatTopic",
+        "name": "heartbeat",
         "topic": "heartbeat",
         "qos": "0",
         "retain": "false",
         "broker": "cd8293c3.d0adf8",
-        "x": 449,
-        "y": 441,
+        "x": 529,
+        "y": 331,
         "wires": []
     },
     {
         "id": "64402c08.5ec26c",
         "type": "function",
         "z": "aa066d67.6cfce",
-        "name": "animationId",
+        "name": "animation",
         "func": "node.status({fill:\"green\",shape:\"ring\",text:msg.payload.animation});",
         "outputs": 1,
         "noerr": 0,
-        "x": 512.5,
-        "y": 237,
+        "x": 381.5,
+        "y": 297,
         "wires": [
             []
         ]
@@ -1169,16 +1133,16 @@
         "z": "aa066d67.6cfce",
         "name": "annouce",
         "topic": "",
-        "payload": "{ \"id\": \"00:00:00:00:00:00\" }",
-        "payloadType": "json",
+        "payload": "id",
+        "payloadType": "flow",
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 162.5,
-        "y": 55,
+        "x": 132.5,
+        "y": 122,
         "wires": [
             [
-                "5dccf20b.ae08ac"
+                "25a19681.78506a"
             ]
         ]
     },
@@ -1186,53 +1150,26 @@
         "id": "5dccf20b.ae08ac",
         "type": "mqtt out",
         "z": "aa066d67.6cfce",
-        "name": "announceTopic",
+        "name": "announce",
         "topic": "announce",
         "qos": "",
         "retain": "",
         "broker": "cd8293c3.d0adf8",
-        "x": 338.5,
-        "y": 55,
+        "x": 539.5,
+        "y": 123,
         "wires": []
-    },
-    {
-        "id": "839b52d6.70d62",
-        "type": "change",
-        "z": "aa066d67.6cfce",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload.alive",
-                "pt": "msg",
-                "to": "true",
-                "tot": "bool"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 445.5,
-        "y": 597,
-        "wires": [
-            [
-                "412b2485.b07214"
-            ]
-        ]
     },
     {
         "id": "af446ea2.e5509",
         "type": "mqtt out",
         "z": "af8eb435.50eef",
-        "name": "cmdTopic",
-        "topic": "F4:FB:87:7F:CF:5C",
+        "name": "cmd",
+        "topic": "",
         "qos": "",
         "retain": "",
         "broker": "cd8293c3.d0adf8",
-        "x": 3599.5,
-        "y": 516,
+        "x": 1311.5,
+        "y": 582,
         "wires": []
     },
     {
@@ -1255,7 +1192,7 @@
         "id": "1c0106f4.c389d1",
         "type": "switch",
         "z": "f25c2c2d.6ed27",
-        "name": "isFrontDoorReader",
+        "name": "isReader",
         "property": "payload.id",
         "propertyType": "msg",
         "rules": [
@@ -1267,7 +1204,7 @@
         ],
         "checkall": "true",
         "outputs": 1,
-        "x": 206.5,
+        "x": 176.5,
         "y": 334,
         "wires": [
             [
@@ -1275,8 +1212,7 @@
                 "5bc6205c.df7a18",
                 "e312b773.c5d7b8",
                 "3340bed4.3417c2",
-                "d7773352.e7133",
-                "8d662902.0b26b8"
+                "d7773352.e7133"
             ]
         ]
     },
@@ -1539,13 +1475,13 @@
         "id": "9076a0ec.2c09d8",
         "type": "mqtt out",
         "z": "f25c2c2d.6ed27",
-        "name": "cmdTopic",
+        "name": "cmd",
         "topic": "",
         "qos": "",
         "retain": "",
         "broker": "cd8293c3.d0adf8",
-        "x": 534.5,
-        "y": 567,
+        "x": 482.5,
+        "y": 605,
         "wires": []
     },
     {
@@ -1576,15 +1512,610 @@
         ]
     },
     {
-        "id": "8d662902.0b26b8",
-        "type": "debug",
+        "id": "5fe29aa0.cf97c4",
+        "type": "config",
+        "z": "aa066d67.6cfce",
+        "name": "Test Reader Config",
+        "properties": [
+            {
+                "p": "id",
+                "pt": "flow",
+                "to": "00:00:00:00:00:00",
+                "tot": "str"
+            }
+        ],
+        "active": true,
+        "x": 161.5,
+        "y": 51,
+        "wires": []
+    },
+    {
+        "id": "25a19681.78506a",
+        "type": "change",
+        "z": "aa066d67.6cfce",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.id",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 333.5,
+        "y": 122,
+        "wires": [
+            [
+                "5dccf20b.ae08ac"
+            ]
+        ]
+    },
+    {
+        "id": "1b95f985.642c1e",
+        "type": "change",
+        "z": "aa066d67.6cfce",
+        "name": "",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.rssi",
+                "pt": "msg",
+                "to": "-80",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "payload.vcc",
+                "pt": "msg",
+                "to": "5",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 324.5,
+        "y": 180,
+        "wires": [
+            [
+                "4bb49e58.1cdd5"
+            ]
+        ]
+    },
+    {
+        "id": "cd476388.5e04c8",
+        "type": "change",
+        "z": "aa066d67.6cfce",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.id",
+                "pt": "msg",
+                "to": "id",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 353.5,
+        "y": 234,
+        "wires": [
+            [
+                "83255b0f.fbc27"
+            ]
+        ]
+    },
+    {
+        "id": "8cedcf08.467288",
+        "type": "mqtt in",
+        "z": "aa066d67.6cfce",
+        "name": "heartbeat",
+        "topic": "heartbeat",
+        "qos": "0",
+        "broker": "cd8293c3.d0adf8",
+        "x": 112,
+        "y": 430,
+        "wires": [
+            [
+                "d0aeb867.b7e6a8"
+            ]
+        ]
+    },
+    {
+        "id": "85137406.91e9c",
+        "type": "switch",
+        "z": "aa066d67.6cfce",
+        "name": "isReader",
+        "property": "payload.id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "id",
+                "vt": "flow"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 169.5,
+        "y": 561,
+        "wires": [
+            [
+                "99cfadd3.a764c8",
+                "59588bc8.c78aa4",
+                "357f4747.111e4",
+                "6cf488d4.dab7f",
+                "9efcd935.df59a"
+            ]
+        ]
+    },
+    {
+        "id": "59588bc8.c78aa4",
+        "type": "function",
+        "z": "aa066d67.6cfce",
+        "name": "isConnected",
+        "func": "if(msg.payload.alive) {\n  node.status({fill:\"green\",shape:\"ring\",text:\"up\"});\n} else {\n  node.status({fill:\"red\",shape:\"ring\",text:\"down\"});\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 642,
+        "y": 579,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "357f4747.111e4",
+        "type": "trigger",
+        "z": "aa066d67.6cfce",
+        "op1": "{\"alive\":false}",
+        "op2": "{\"alive\":false}",
+        "op1type": "json",
+        "op2type": "json",
+        "duration": "10",
+        "extend": true,
+        "units": "s",
+        "reset": "",
+        "name": "WatchDog",
+        "x": 449,
+        "y": 517,
+        "wires": [
+            [
+                "59588bc8.c78aa4",
+                "99cfadd3.a764c8"
+            ]
+        ]
+    },
+    {
+        "id": "d0aeb867.b7e6a8",
+        "type": "json",
+        "z": "aa066d67.6cfce",
+        "name": "",
+        "x": 268,
+        "y": 431,
+        "wires": [
+            [
+                "796bcd07.4283b4"
+            ]
+        ]
+    },
+    {
+        "id": "99cfadd3.a764c8",
+        "type": "ui_text",
+        "z": "aa066d67.6cfce",
+        "group": "d44b5357.d71a2",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Online",
+        "format": "{{msg.payload.alive}}",
+        "layout": "row-spread",
+        "x": 587,
+        "y": 635,
+        "wires": []
+    },
+    {
+        "id": "796bcd07.4283b4",
+        "type": "change",
+        "z": "aa066d67.6cfce",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.alive",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 447,
+        "y": 431,
+        "wires": [
+            [
+                "85137406.91e9c"
+            ]
+        ]
+    },
+    {
+        "id": "f9eb3ed1.3fa438",
+        "type": "ui_gauge",
+        "z": "aa066d67.6cfce",
+        "name": "",
+        "group": "d44b5357.d71a2",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "VCC",
+        "label": "volts",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "7",
+        "colors": [
+            "#00B500",
+            "#E6E600",
+            "#CA3838"
+        ],
+        "x": 396.5,
+        "y": 722,
+        "wires": []
+    },
+    {
+        "id": "fe77f75e.013c9",
+        "type": "ui_gauge",
+        "z": "aa066d67.6cfce",
+        "name": "",
+        "group": "d44b5357.d71a2",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Signal",
+        "label": "RSSI",
+        "format": "{{value}}",
+        "min": "-100",
+        "max": "0",
+        "colors": [
+            "#00B500",
+            "#E6E600",
+            "#CA3838"
+        ],
+        "x": 421.5,
+        "y": 678,
+        "wires": []
+    },
+    {
+        "id": "6cf488d4.dab7f",
+        "type": "change",
+        "z": "aa066d67.6cfce",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.vcc",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 223.5,
+        "y": 720,
+        "wires": [
+            [
+                "f9eb3ed1.3fa438"
+            ]
+        ]
+    },
+    {
+        "id": "9efcd935.df59a",
+        "type": "change",
+        "z": "aa066d67.6cfce",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.rssi",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 223.5,
+        "y": 676,
+        "wires": [
+            [
+                "fe77f75e.013c9"
+            ]
+        ]
+    },
+    {
+        "id": "f3e62477.1bb4c8",
+        "type": "config",
+        "z": "af8eb435.50eef",
+        "name": "",
+        "properties": [
+            {
+                "p": "id",
+                "pt": "flow",
+                "to": "F4:FB:87:7F:CF:5C",
+                "tot": "str"
+            },
+            {
+                "p": "testId",
+                "pt": "flow",
+                "to": "00:00:00:00:00:00",
+                "tot": "str"
+            },
+            {
+                "p": "controlId",
+                "pt": "flow",
+                "to": "test",
+                "tot": "str"
+            }
+        ],
+        "active": true,
+        "x": 96.5,
+        "y": 58,
+        "wires": []
+    },
+    {
+        "id": "bf7581e9.3af",
+        "type": "change",
+        "z": "af8eb435.50eef",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "controlId",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1396.5,
+        "y": 465,
+        "wires": [
+            [
+                "b9fb30b0.8563d8"
+            ]
+        ]
+    },
+    {
+        "id": "60d04b0e.96899c",
+        "type": "change",
+        "z": "af8eb435.50eef",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "id",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1123.5,
+        "y": 563,
+        "wires": [
+            [
+                "af446ea2.e5509",
+                "b5677779.60db38"
+            ]
+        ]
+    },
+    {
+        "id": "920682fb.898f3",
+        "type": "change",
+        "z": "af8eb435.50eef",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "testId",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1119.5,
+        "y": 609,
+        "wires": [
+            [
+                "af446ea2.e5509",
+                "b5677779.60db38"
+            ]
+        ]
+    },
+    {
+        "id": "b5677779.60db38",
+        "type": "ui_text",
+        "z": "af8eb435.50eef",
+        "group": "3b412734.eb65a8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Animation",
+        "format": "{{msg.payload.animation}}",
+        "layout": "row-spread",
+        "x": 1316.5,
+        "y": 655,
+        "wires": []
+    },
+    {
+        "id": "b5935a92.3cfca8",
+        "type": "config",
+        "z": "6e3c2f9f.203b8",
+        "name": "Relay ID",
+        "properties": [
+            {
+                "p": "id",
+                "pt": "flow",
+                "to": "test",
+                "tot": "str"
+            }
+        ],
+        "active": true,
+        "x": 115.5,
+        "y": 42,
+        "wires": []
+    },
+    {
+        "id": "a8aad87c.c2d6b",
+        "type": "change",
+        "z": "6e3c2f9f.203b8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.id",
+                "pt": "msg",
+                "to": "id",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 344.5,
+        "y": 330,
+        "wires": [
+            [
+                "7c59fe51.3d1f78"
+            ]
+        ]
+    },
+    {
+        "id": "a7f61fe0.03b4d",
+        "type": "mqtt in",
+        "z": "f25c2c2d.6ed27",
+        "name": "cmd",
+        "topic": "F4:FB:87:7F:CF:5C",
+        "qos": "0",
+        "broker": "cd8293c3.d0adf8",
+        "x": 98,
+        "y": 720,
+        "wires": [
+            [
+                "8b9ce3ee.7161d"
+            ]
+        ]
+    },
+    {
+        "id": "65aacb1a.d8c42c",
+        "type": "ui_text",
+        "z": "f25c2c2d.6ed27",
+        "group": "e36fe1ec.0ae5a8",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "name": "Animation",
+        "label": "Animation",
+        "format": "{{msg.payload.animation}}",
+        "layout": "row-spread",
+        "x": 515,
+        "y": 771,
+        "wires": []
+    },
+    {
+        "id": "8b9ce3ee.7161d",
+        "type": "json",
         "z": "f25c2c2d.6ed27",
         "name": "",
-        "active": true,
-        "console": "false",
-        "complete": "true",
-        "x": 710.5,
-        "y": 293,
-        "wires": []
+        "x": 229,
+        "y": 719,
+        "wires": [
+            [
+                "e66e6f67.cb1b88"
+            ]
+        ]
+    },
+    {
+        "id": "b2780e78.7203f",
+        "type": "function",
+        "z": "f25c2c2d.6ed27",
+        "name": "animation",
+        "func": "node.status({fill:\"green\",shape:\"ring\",text:msg.payload.animation});",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 515,
+        "y": 719,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e66e6f67.cb1b88",
+        "type": "switch",
+        "z": "f25c2c2d.6ed27",
+        "name": "",
+        "property": "payload.animation",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 361.5,
+        "y": 721,
+        "wires": [
+            [
+                "b2780e78.7203f",
+                "65aacb1a.d8c42c"
+            ]
+        ]
     }
 ]
