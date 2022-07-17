@@ -1,7 +1,11 @@
 # Package management
 **/node_modules/
 
+# Build Artifacts
+build/
+
 # Secrets
+api/.env
 nfc/settings.toml
 
 # IDE configuration
