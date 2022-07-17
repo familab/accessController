@@ -3,6 +3,7 @@ bower_components/
 .sass-cache/
 .tmp/
 dist/
+build/
 
 # Swap Files
 *.sw*
@@ -35,3 +36,4 @@ build/Release
 # Users Environment Variables
 .lock-wscript
 .data
+.env
