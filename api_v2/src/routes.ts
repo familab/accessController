@@ -13,10 +13,6 @@ router.get('/:location/:badgeId', async (req: any, res) => {
     if(hasAccess)
         res.send('true');
     else res.send('false');
-    // res.json({
-    //     "location: ": req.params.location,
-    //     "badgeId": req.params.badgeId
-    // });
 })
 
 export { router };

@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import { arrayBuffer } from "stream/consumers";
 import { sheetsHandler } from "./sheets.js";
 
 class checkAccess {
@@ -9,7 +8,7 @@ class checkAccess {
         this.credentials = process.env.CREDENTIALS;
         this.spreadsheet_id = process.env.SPREADSHEET_ID;
         this.spreadsheet_sheet_id = process.env.SPREADSHEET_SHEET_NAME;
-        this.retrievedBadgeId = ''
+        this.retrievedBadgeId = '';
 
         this.handler = new sheetsHandler(this.credentials, this.api_key);
     }

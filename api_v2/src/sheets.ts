@@ -1,5 +1,4 @@
 import sheets from '@googleapis/sheets';
-import { GoogleAuth } from "google-auth-library";
 
 class sheetsHandler {
     constructor(keyfilePath: string | undefined, api_key: string | undefined) {
@@ -10,10 +9,9 @@ class sheetsHandler {
 
     setupAuth() {
         const auth = new sheets.auth.GoogleAuth({
-            keyFilename: "../../../inner-orb-356517-df8b6eb30f60.json",
+            keyFilename: this.keyfilePath,
             scopes: ['https://www.googleapis.com/auth/spreadsheets']
         });
-        // const authClient = await auth.getClient();
         const client = sheets.sheets({
             version: 'v4',
             auth: auth,
