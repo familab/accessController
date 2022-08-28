@@ -7,6 +7,8 @@ Access Control software written for Familab.
 * Improve security for who can update the badge list
 
 ## API v2
+_Note: More details can be found in the readme in the api_v2 folder_.
+
 Includes a single API endpoint.  
 Retrieves badge access list from a Google Spreadsheet.  
 Compares badge and location from API request to list from google spreadsheets and returns a boolean true/false.

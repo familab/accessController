@@ -6,10 +6,25 @@ Create a single, authorative data source for members that the access control sys
 
 ## Design
 A google spreadsheet will be used as the authoritative data source for badges.
-The accessController API will provide a single endpoint with two variables: `badgeI` and `location`. When a request comes in, a canonical google sheet will be queried via Google's APIs to retrieve the list of badges and their access.
+The accessController API will provide a single endpoint with two variables: `badgeId` and `location`. When a request comes in, a canonical google sheet will be queried via Google's APIs to retrieve the list of badges and their access.
 
 From the returned spreadsheet, a row matching the `badgeId` will be checked for a matching value for `location`. accessController API will then return a boolean true/false.
 
-## TODO:
+## Download and Build:
+### Prerequisities:
+`nodejs` v16.15 or later.
+### Download:
+Pull branch and run `npm install` to download dependencies
+### Build:
+Run `npm build run` from the working directory. Server will start on the port specified in the `.env` file.
+
+## Development Status:
+### Complete:
+* Create GET endpoint supporting two variables: `badgeId`, `location`
+* Query google spreadsheet using google API
+* Parse retrieved sheet to JSON
+* Compare incoming `badgeId` and `location` to parsed json and return `[true, false]`
+### TODO:
 * Logging for historical records
+    * Provide a way to retrieve records
 * Cache most recent parsed spreadsheet for use when internet is offline
