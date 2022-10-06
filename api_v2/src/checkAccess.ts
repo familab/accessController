@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 import { sheetsHandler } from "./sheets.js";
+import { createLogger, transports, format } from "winston";
+// import winston from "winston/lib/winston/config/index.js";
 
 class checkAccess {
     constructor() {
@@ -11,14 +13,35 @@ class checkAccess {
         this.retrievedBadgeId = '';
 
         this.handler = new sheetsHandler(this.credentials, this.api_key);
+        const logger = createLogger({
+            transports: [
+                new transports.Console({
+                    format: format.combine(
+                        format.colorize(),
+                        format.timestamp(),
+                        format.printf(({ timestamp, level, message }) => {
+                            return `[${timestamp}] ${level}: ${message}`;
+                        })
+                    )
+                }),
+                new transports.File({
+                    filename: process.env.LOGFILE_PATH,
+                    format: format.combine(format.timestamp(),format.json())
+                })
+            ],
+        });
+        this.logger = logger;
     }
 
     async checkBadgeId(badgeId: string, location: string) {
+        this.logger.info(`Access request at ${location}: ${badgeId}`);
         const sheet = await this.handler.getValues(this.spreadsheet_id, [this.spreadsheet_sheet_id]) // This is a 2d array representation of the table. [row:[cell,cell],row:[cell,cell]]
         const members = this.convertSheetsArrayToObject(sheet as Array<Array<any>>);
-        if(badgeId in members) {
+        if (badgeId in members) {
+            this.logger.info(`Access Granted at ${location}: ${badgeId}`);
             return members[badgeId as keyof accessObject].includes(location);
         }
+        this.logger.warn(`Access Denied at ${location}: ${badgeId}`);
         return false;
     }
 
@@ -37,7 +60,7 @@ class checkAccess {
                 accessObject[retrievedBadgeId as keyof accessObject] = endorsementsArray;
             }
         });
-        
+
         return accessObject;
     }
 
@@ -45,6 +68,7 @@ class checkAccess {
     api_key: string | undefined;
     credentials: string | undefined;
     handler: sheetsHandler;
+    logger: any;
     retrievedBadgeId: string;
     spreadsheet_id: string | undefined;
     spreadsheet_sheet_id: string | undefined;

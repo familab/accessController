@@ -24,7 +24,8 @@ Run `npm build run` from the working directory. Server will start on the port sp
 * Query google spreadsheet using google API
 * Parse retrieved sheet to JSON
 * Compare incoming `badgeId` and `location` to parsed json and return `[true, false]`
+* Log requests to disk (and console.)
 ### TODO:
-* Logging for historical records
-    * Provide a way to retrieve records
+* Provide a way to retrieve logs that's nicer than grepping the .log file.
+* Rotate logfile occasionally if it ends up growing too big.
 * Cache most recent parsed spreadsheet for use when internet is offline
