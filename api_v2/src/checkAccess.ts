@@ -18,7 +18,7 @@ class checkAccess {
                 new transports.Console({
                     format: format.combine(
                         format.colorize(),
-                        format.timestamp(),
+                        format.timestamp({format: 'MM-DD-YYYY HH:mm:ss'}),
                         format.printf(({ timestamp, level, message }) => {
                             return `[${timestamp}] ${level}: ${message}`;
                         })
@@ -26,7 +26,7 @@ class checkAccess {
                 }),
                 new transports.File({
                     filename: process.env.LOGFILE_PATH,
-                    format: format.combine(format.timestamp(),format.json())
+                    format: format.combine(format.timestamp({format: 'MM-DD-YYYY HH:mm:ss'}),format.json())
                 })
             ],
         });
@@ -38,8 +38,9 @@ class checkAccess {
         const sheet = await this.handler.getValues(this.spreadsheet_id, [this.spreadsheet_sheet_id]) // This is a 2d array representation of the table. [row:[cell,cell],row:[cell,cell]]
         const members = this.convertSheetsArrayToObject(sheet as Array<Array<any>>);
         if (badgeId in members) {
-            this.logger.info(`Access Granted at ${location}: ${badgeId}`);
-            return members[badgeId as keyof accessObject].includes(location);
+            let access = members[badgeId as keyof accessObject].includes(location)
+            this.logger.info(`Access ${access ? "Granted" : "Denied"} at ${location}: ${badgeId}`);
+            return access;
         }
         this.logger.warn(`Access Denied at ${location}: ${badgeId}`);
         return false;

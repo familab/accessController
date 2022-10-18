@@ -16,7 +16,7 @@ From the returned spreadsheet, a row matching the `badgeId` will be checked for 
 ### Download:
 Pull branch and run `npm install` to download dependencies
 ### Build:
-Run `npm build run` from the working directory. Server will start on the port specified in the `.env` file.
+Run `npm build run` from the working directory. Server will start on localhost at the port specified in the `.env` file.
 
 ## Development Status:
 ### Complete:
@@ -28,4 +28,5 @@ Run `npm build run` from the working directory. Server will start on the port sp
 ### TODO:
 * Provide a way to retrieve logs that's nicer than grepping the .log file.
 * Rotate logfile occasionally if it ends up growing too big.
+* Create a default badge list to be stored in the .env file to use when device starts in offline.
 * Cache most recent parsed spreadsheet for use when internet is offline
