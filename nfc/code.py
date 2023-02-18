@@ -1,6 +1,7 @@
 # based on code found at:
 #   https://learn.adafruit.com/adafruit-1-14-240x135-color-tft-breakout/circuitpython-displayio-quickstart
 #   https://learn.adafruit.com/adafruit-1-14-240x135-color-tft-breakout/circuitpython-displayio-quickstart
+#   https://gitlab.com/christopher_m/circuitpython-mfrc522/-/blob/master/examples/read.py
 
 # VERY WIP, code written for Adafruit ESP32-S3 TFT Feather
 # Proof of concept for connecting to wifi, drawing to built-in screen
@@ -18,6 +19,46 @@ import displayio
 import terminalio
 from adafruit_display_text import label
 from adafruit_st7789 import ST7789
+
+import mfrc522
+from os import uname
+
+# https://gitlab.com/christopher_m/circuitpython-mfrc522/-/blob/master/examples/read.py
+def do_read():
+    spi=board.SPI()
+
+    if uname()[0] == 'ESP32S3':
+        rdr = mfrc522.MFRC522(spi, cs=board.SDA, rst=board.D5)
+    else:
+        raise RuntimeError("Unsupported platform")
+
+    print("")
+    print("Place card before reader to read from address 0x08")
+    print("")
+
+    try:
+        while True:
+            (stat, tag_type) = rdr.request(rdr.REQIDL)
+            if stat == rdr.OK:
+                (stat, raw_uid) = rdr.anticoll()
+                if stat == rdr.OK:
+                    print("New card detected")
+                    print("  - tag type: 0x%02x" % tag_type)
+                    print("  - uid     : 0x%02x%02x%02x%02x" % (raw_uid[0], raw_uid[1], raw_uid[2], raw_uid[3]))
+                    print("")
+
+                    if rdr.select_tag(raw_uid) == rdr.OK:
+                        key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+                        if rdr.auth(rdr.AUTHENT1A, 8, key, raw_uid) == rdr.OK:
+                            print("Address 8 data: %s" % rdr.read(8))
+                            rdr.stop_crypto1()
+                        else:
+                            print("Authentication error")
+                    else:
+                        print("Failed to select tag")
+
+    except KeyboardInterrupt:
+        print("Bye")
 
 def setup_display():
     BORDER = 20
@@ -65,7 +106,6 @@ def draw_text(display, bg_color, fg_color, text_color, text):
     text_group.append(text_area)
     splash.append(text_group)
 
-
 # URLs to fetch from
 TEXT_URL = "http://wifitest.adafruit.com/testwifi/index.html"
 JSON_QUOTES_URL = "https://www.adafruit.com/api/quotes.php"
@@ -94,7 +134,6 @@ for network in wifi.radio.start_scanning_networks():
             network.rssi, network.channel))
 wifi.radio.stop_scanning_networks()
 
-# print("Connecting to %s"%secrets["ssid"])
 draw_text(display, 0xCCCCCC, FAMILAB_BLUE, 0xFFFFFF, "Connecting...")
 wifi.radio.connect(secrets["ssid"], secrets["password"])
 draw_text(display, 0x00FF00, FAMILAB_BLUE, 0xFFFFFF, "Connected!")
@@ -108,6 +147,7 @@ pool = socketpool.SocketPool(wifi.radio)
 requests = adafruit_requests.Session(pool, ssl.create_default_context())
 
 draw_text(display, 0xFFFFFF, FAMILAB_BLUE, 0xFFFFFF, "Familab")
+do_read()
 
 # print("Fetching text from", TEXT_URL)
 # response = requests.get(TEXT_URL)
@@ -131,5 +171,6 @@ draw_text(display, 0xFFFFFF, FAMILAB_BLUE, 0xFFFFFF, "Familab")
 
 # print("done")
 
-while True:
-    pass
+# while True:
+#     do_read()
+#     pass
