@@ -21,8 +21,10 @@
         "reflect-metadata": "^0.1.13",
         "routing-controllers": "^0.10.4",
         "routing-controllers-openapi": "^4.0.0",
+        "sqlite3": "^5.1.6",
         "swagger-ui-express": "^5.0.0",
         "typedi": "^0.10.0",
+        "typeorm": "^0.3.17",
         "winston": "^3.11.0"
     },
     "devDependencies": {
