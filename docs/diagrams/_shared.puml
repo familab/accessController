@@ -1,0 +1,17 @@
+@startuml(id=style)
+!theme crt-amber
+skinparam componentStyle rectangle
+skinparam backgroundColor transparent
+
+<style>
+fontColor: #fda501
+</style>
+
+header "FamiLAB Access Controller"
+hide footbox
+@enduml
+
+@startuml
+!include _shared.puml!style
+component TestComponent
+@enduml

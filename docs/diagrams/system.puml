@@ -1,0 +1,39 @@
+@startuml
+!include _shared.puml!style
+left to right direction
+
+title System Component Diagram
+
+cloud "AWS" {
+  component S3
+}
+
+node "FamiLAB" {
+  rectangle "Docker" {
+    component Server
+    database Database
+    component "Database Backup" as DatabaseBackup
+
+    port "HTTP" as HTTP
+  }
+
+  interface "Card Scanner" as CardScanner
+  interface "Admin Portal" as AdminPortal
+
+  actor User
+  actor Admin
+}
+
+User --> CardScanner  : Scan badge
+Admin --> AdminPortal : Manage users
+
+CardScanner --> HTTP : Calls `POST /api/access`
+AdminPortal <-- HTTP : Serves HTML
+AdminPortal --> HTTP : Calls `/api/*`
+HTTP --> Server
+
+Server <-> Database
+
+Database -> DatabaseBackup
+DatabaseBackup -> S3
+@enduml
