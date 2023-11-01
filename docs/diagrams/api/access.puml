@@ -1,0 +1,53 @@
+@startuml
+!include ../_shared.puml!style
+
+title """POST /api/access"""
+
+
+actor       "User" as User
+boundary    "Access Module" as CardAccess
+participant "Application Server" as Server
+database    "SQL Database" as Database
+
+
+User -> CardAccess: Swipes card
+    activate CardAccess
+CardAccess -> Server: Does user have access to this location?
+    activate Server
+    rnote over CardAccess, Server
+        <code>
+        POST /api/access
+        x-location-id: 1234
+        {
+          "media_id": "5678"
+        }
+        </code>
+    end note
+
+Server -> Database: Get UserAccessLocation for\nthis user and location
+    activate Database
+    rnote over Server, Database
+        <code>
+        SELECT * FROM Media as media
+        RIGHT JOIN UserAccessLocation as uac
+        ON media.user_id = uac.user_id
+        WHERE media.id=$media_id AND uac.location_id=$location_id
+        </code>
+    end note
+
+Server <-- Database: 0..1 UserAccessLocation
+    deactivate Database
+
+alt UserAccessLocation exists
+    CardAccess <-- Server: return ""200 Ok""
+    User <-- CardAccess: //Flashes Green//\nOpens the door
+
+else UserAccessLocation does not exist
+    CardAccess <-- Server: return ""401 Unauthorized""
+        deactivate Server
+    User <-- CardAccess: //Flashes Red//\nNothing happens
+        deactivate CardAccess
+
+end
+
+@enduml

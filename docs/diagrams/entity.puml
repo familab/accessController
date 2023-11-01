@@ -1,0 +1,41 @@
+@startuml
+!include _shared.puml!style
+skinparam linetype ortho
+
+title Entity Diagram
+
+entity User {
+  id: Integer <<PK>>
+  --
+  status: ""ACTIVE"" | ""INACTIVE""
+  name?: String
+  login: String
+  password: Hash
+}
+
+entity Media {
+  id: Integer <<PK>>
+  user_id: Integer <<FK>>
+  --
+  status: ""ACTIVE"" | ""INACTIVE""
+  description?: String
+  code: String
+}
+
+entity Location {
+  id: Integer <<PK>>
+  --
+  name: String
+}
+
+entity UserLocationAccess {
+  user_id: Integer <<FK>>
+  location_id: Integer <<FK>>
+  --
+}
+
+User        *--{ UserLocationAccess
+User        o--{ Media
+Location    *--{ UserLocationAccess
+
+@enduml

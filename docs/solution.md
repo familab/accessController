@@ -11,3 +11,14 @@ body {
 ```puml
 !include diagrams/system.puml
 ```
+
+## Entity Diagram
+```puml
+!include diagrams/entity.puml
+```
+
+## API
+### `POST /api/access`
+```puml
+!include diagrams/api/access.puml
+```
