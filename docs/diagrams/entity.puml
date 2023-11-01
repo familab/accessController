@@ -9,8 +9,6 @@ entity User {
   --
   status: ""ACTIVE"" | ""INACTIVE""
   name?: String
-  login: String
-  password: Hash
 }
 
 entity Media {
