@@ -5,6 +5,12 @@ skinparam backgroundColor transparent
 
 <style>
 fontColor: #fda501
+note, group {
+  backgroundColor: #151515
+}
+note {
+  fontStyle: bold
+}
 </style>
 
 header "FamiLAB Access Controller"
