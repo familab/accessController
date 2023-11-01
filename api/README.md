@@ -13,7 +13,7 @@ The accessController API will provide a single endpoint with two variables: `bad
 From the returned spreadsheet, a row matching the `badgeId` will be checked for a matching value for `location`. accessController API will then return a boolean true/false.
 
 ## Download and Build:
-### Prerequisities:
+### Prerequisites:
 `nodejs` v16.15 or later.
 ### Download:
 Pull branch and run `npm install` to download dependencies

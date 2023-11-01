@@ -3,9 +3,11 @@
 
 # Build Artifacts
 build/
+.local/
 
 # Secrets
 api/.env
+api/credentials.*
 nfc/settings.toml
 
 # IDE configuration

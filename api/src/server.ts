@@ -1,15 +1,16 @@
-import dotenv from "dotenv";
-import { listener } from "./listener.js";
-import { sheetsHandler } from "./sheets.js";
+import express from "express";
+import { Container } from "typedi";
+import { Logger } from "winston";
+import { env } from "./env.js";
+import { router } from "./router.js";
 
-import path from "path";
+const logger = Container.get(Logger).child({file: import.meta.url});
 
-// // Initialize Config
-dotenv.config();
+const app = express();
+app.use(router);
 
-const port = process.env.SERVER_PORT;
-
-// Default handler
-
-let app = new listener(port);
-app.init();
+// Start the server
+const port = env.serverPort;
+app.listen(port, () => {
+    logger.info(`Server started at http://localhost:${port}.`);
+});

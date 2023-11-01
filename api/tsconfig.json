@@ -1,8 +1,5 @@
 {
     "extends": "../tsconfig.json",
-    "compilerOptions": {
-        "rootDir": "src"
-    },
     "include": [
         "integration/**/*",
         "scripts/**/*",
@@ -10,8 +7,5 @@
     ],
     "exclude": [
         "node_modules"
-    ],
-    "ts-node": {
-        "esm": true
-    }
+    ]
 }
