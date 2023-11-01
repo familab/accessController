@@ -22,3 +22,10 @@ body {
 ```puml
 !include diagrams/api/access.puml
 ```
+
+### `CRUD /api/users`
+### `CRUD /api/media`
+### `CRUD /api/locations`
+
+### `PUT /api/users/:user_id/location/:location_id`
+### `DELETE /api/users/:user_id/location/:location_id`
