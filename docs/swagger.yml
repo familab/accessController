@@ -1,0 +1,193 @@
+openapi: 3.1.0
+info:
+  title: FamiLAB Access Controller
+  version: 2.0.0
+tags:
+  - name: user
+    description: Operations about user
+paths:
+  /user:
+    post:
+      tags: [ user ]
+      summary: Create user
+      description: ""
+      operationId: createUser
+      requestBody:
+        description: User object to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '201':
+          description: Created the user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+    get:
+      tags: [ user ]
+      summary: Search users
+      description: ""
+      operationId: searchUsers
+      parameters:
+        - name: name
+          in: query
+          description: "Search for users by name"
+          schema:
+            type: string
+        - name: location
+          in: query
+          description: "Search for users that have access to a location"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of users that match the query params
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+  /user/{user_id}:
+    get:
+      tags: [ user ]
+      summary: Get user by id
+      description: ""
+      operationId: getUserByName
+      parameters:
+        - name: user_id
+          in: path
+          description: ""
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '404':
+          description: User not found
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    examples: [ "error:user-not-found" ]
+                  title:
+                    type: string
+                    examples: [ "User not found" ]
+                  detail:
+                    type: string
+                    examples: [ "No user found for id '123'" ]
+    put:
+      tags: [ user ]
+      summary: Update user
+      description: ""
+      operationId: updateUser
+      parameters:
+        - name: user_id
+          in: path
+          description: ""
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '204':
+          description: User updated
+        '404':
+          description: User not found
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    examples: [ "error:user-not-found" ]
+                  title:
+                    type: string
+                    examples: [ "User not found" ]
+                  detail:
+                    type: string
+                    examples: [ "No user found for id '123'" ]
+    delete:
+      tags: [ user ]
+      summary: Delete user
+      description: ""
+      operationId: deleteUser
+      parameters:
+        - name: user_id
+          in: path
+          description: ""
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User successfully deleted
+        '404':
+          description: User not found
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    examples: [ "error:user-not-found" ]
+                  title:
+                    type: string
+                    examples: [ "User not found" ]
+                  detail:
+                    type: string
+                    examples: [ "No user found for id '123'" ]
+components:
+  schemas:
+    CreateUserRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          description: User Status
+          enum:
+            - ACTIVE
+            - INACTIVE
+        name:
+          type: string
+          examples: [ "Matthew Hoover" ]
+    UpdateUserRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CreateUserRequest'
+        - properties:
+            id:
+              type: integer
+              format: int64
+              examples: [ 10 ]
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          examples: [ 10 ]
+        status:
+          type: string
+          description: User Status
+          enum:
+            - ACTIVE
+            - INACTIVE
+        name:
+          type: string
+          examples: [ "Matthew Hoover" ]
