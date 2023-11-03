@@ -19,7 +19,7 @@ class Reader:
         print("")
 
     # https://gitlab.com/christopher_m/circuitpython-mfrc522/-/blob/master/examples/read.py
-    def do_read(self):
+    def do_read(self) -> str | None:
         spi = board.SPI()
         try:
             while not spi.try_lock():
@@ -33,9 +33,10 @@ class Reader:
             if stat != self.reader.OK:
                 return None
 
+            uid = "0x%02x%02x%02x%02x" % (raw_uid[0], raw_uid[1], raw_uid[2], raw_uid[3])
             print("New card detected")
             print("  - tag type: 0x%02x" % tag_type)
-            print("  - uid     : 0x%02x%02x%02x%02x" % (raw_uid[0], raw_uid[1], raw_uid[2], raw_uid[3]))
+            print("  - uid     : %s" % uid)
             print("")
 
             if self.reader.select_tag(raw_uid) == self.reader.OK:
@@ -48,7 +49,7 @@ class Reader:
             else:
                 print("Failed to select tag")
 
-            return raw_uid
+            return uid
 
         except KeyboardInterrupt:
             print("Bye")

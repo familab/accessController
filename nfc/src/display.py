@@ -31,6 +31,8 @@ class Display:
                   border_color=None,
                   text_color=0xFFFFFF,
                   foreground_color=FAMILAB_BLUE):
+        print("Display: ", text)
+
         if border_color == None:
             border_color = foreground_color
 

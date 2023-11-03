@@ -1,5 +1,4 @@
 ssid = "WiFi SSID"
 password = "WiFi Password"
-#aio_username = 'my_adafruit_io_username'
-#aio_key = 'my_adafruit_io_key'
-timezone = "America/New_York" # http://worldtimeapi.org/timezones
+base_url = "http://example.authentication.server"
+location = "front-door"
