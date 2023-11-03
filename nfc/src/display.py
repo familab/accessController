@@ -7,6 +7,9 @@ from adafruit_st7789 import ST7789
 BORDER = 20
 FONTSCALE = 2
 
+# Colors
+FAMILAB_BLUE = 0x3399FF
+
 
 class Display:
     display: ST7789
@@ -23,23 +26,28 @@ class Display:
             display_bus, rotation=270, width=240, height=135, rowstart=40, colstart=53
         )
 
-    def draw_text(self, bg_color, fg_color, text_color, text):
+    def draw_text(self,
+                  text,
+                  border_color=None,
+                  text_color=0xFFFFFF,
+                  foreground_color=FAMILAB_BLUE):
+        if border_color == None:
+            border_color = foreground_color
+
         splash = displayio.Group()
 
-        color_bitmap = displayio.Bitmap(self.display.width, self.display.height, 1)
-        color_palette = displayio.Palette(1)
-        color_palette[0] = bg_color
+        border_bitmap = displayio.Bitmap(self.display.width, self.display.height, 1)
+        border_palette = displayio.Palette(1)
+        border_palette[0] = border_color
 
-        bg_sprite = displayio.TileGrid(color_bitmap, pixel_shader=color_palette, x=0, y=0)
-        splash.append(bg_sprite)
+        border_sprite = displayio.TileGrid(border_bitmap, pixel_shader=border_palette, x=0, y=0)
+        splash.append(border_sprite)
 
-        inner_bitmap = displayio.Bitmap(
-            self.display.width - BORDER * 2, self.display.height - BORDER * 2, 1
-        )
-        inner_palette = displayio.Palette(1)
-        inner_palette[0] = fg_color
-        inner_sprite = displayio.TileGrid(inner_bitmap, pixel_shader=inner_palette, x=BORDER, y=BORDER)
-        splash.append(inner_sprite)
+        foreground_bitmap = displayio.Bitmap(self.display.width - BORDER * 2, self.display.height - BORDER * 2, 1)
+        foreground_palette = displayio.Palette(1)
+        foreground_palette[0] = foreground_color
+        foreground_sprite = displayio.TileGrid(foreground_bitmap, pixel_shader=foreground_palette, x=BORDER, y=BORDER)
+        splash.append(foreground_sprite)
 
         text_area = label.Label(terminalio.FONT, text=text, color=text_color)
         text_width = text_area.bounding_box[2] * FONTSCALE
