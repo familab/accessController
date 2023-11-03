@@ -5,12 +5,12 @@ from os import uname
 
 class Reader:
     reader: MFRC522
-    spi: board.SPI
 
-    def __init__(self, spi: board.SPI):
-        self.spi = spi
+    def __init__(self):
+        spi = board.SPI()
         if uname()[0] == 'ESP32S3':
             self.reader = MFRC522(spi, cs=board.SDA, rst=board.D5)
+            spi.unlock()
         else:
             raise RuntimeError("Unsupported platform")
 
@@ -20,9 +20,11 @@ class Reader:
 
     # https://gitlab.com/christopher_m/circuitpython-mfrc522/-/blob/master/examples/read.py
     def do_read(self):
-        while not self.spi.try_lock():
-            pass
+        spi = board.SPI()
         try:
+            while not spi.try_lock():
+                pass
+
             (stat, tag_type) = self.reader.request(self.reader.REQIDL)
             if stat != self.reader.OK:
                 return None
@@ -51,4 +53,4 @@ class Reader:
         except KeyboardInterrupt:
             print("Bye")
         finally:
-            self.spi.unlock()
+            spi.unlock()

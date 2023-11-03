@@ -10,10 +10,9 @@ FONTSCALE = 2
 
 class Display:
     display: ST7789
-    spi: board.SPI
 
-    def __init__(self, spi: board.SPI):
-        self.spi = spi
+    def __init__(self):
+        spi = board.SPI()
         displayio.release_displays()
         tft_cs = board.TFT_CS
         tft_dc = board.TFT_DC
@@ -25,9 +24,6 @@ class Display:
         )
 
     def draw_text(self, bg_color, fg_color, text_color, text):
-        while not self.spi.try_lock():
-            pass
-
         splash = displayio.Group()
 
         color_bitmap = displayio.Bitmap(self.display.width, self.display.height, 1)
@@ -55,5 +51,3 @@ class Display:
         splash.append(text_group)
 
         self.display.show(splash)
-
-        self.spi.unlock()
