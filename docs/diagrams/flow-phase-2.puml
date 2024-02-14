@@ -1,0 +1,70 @@
+@startuml
+
+title FamiLAB Access Control Phase 2
+hide footbox
+
+participant user as "User"
+
+box "Access Control Point"
+    participant reader as "Card Reader" <<MFRC522>>
+    participant lock as "Door Lock" <<Solenoid>>
+    participant mc as "Microcontroller" <<ESP-32>>
+end box
+
+box "Raspberry Pi"
+    participant server as "Server"
+end box
+
+box "Cloud"
+    participant google as "Google Sheet"
+end box
+
+
+== ACP Initialization ==
+
+mc -> reader: "Hey, lemme know when\nthere's a thing"
+
+== Server Initialization ==
+
+server -> google: Fetch all users and badges
+return all users and badges
+server -> server: Cache users and badges
+
+== Server Polling ==
+
+server -> google: "Has the sheet updated?"
+return Updated users and badges, or ""**304 Not Modified**""
+server -> server: Cache updated users and badges
+
+== Badge Entry: Valid ==
+
+user -> reader: User scans badge
+    activate user
+    activate reader
+    reader -> mc: Alert badge number
+        deactivate reader
+        activate mc
+        mc -> server: Validate badge number
+            activate server
+            server->server: Compare badge number\nto cached users list
+            return Badge number valid
+        lock <- mc: Unlock
+        deactivate mc
+    user <- lock: User can enter
+    deactivate user
+
+== Badge Entry: Invalid ==
+
+user -> reader: User scans badge
+    activate user
+    activate reader
+    reader -> mc: Alert badge number
+        deactivate reader
+        activate mc
+        mc -> server: Validate badge number
+            activate server
+            server->server: Compare badge number\nto cached users list
+            return Badge number invalid
+        user <- mc: Beep? Flash red light?
+
+@enduml

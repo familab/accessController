@@ -8,8 +8,16 @@ body {
 # Project Solution
 
 ## System Component Diagram
+### Phase 1
+Minimum viable design.
 ```puml
-!include diagrams/system.puml
+!include diagrams/flow-phase-1.puml
+```
+
+### Phase 2
+Update to 
+```puml
+!include diagrams/flow-phase-2.puml
 ```
 
 ## Entity Diagram
@@ -22,10 +30,3 @@ body {
 ```puml
 !include diagrams/api/access.puml
 ```
-
-### `CRUD /api/users`
-### `CRUD /api/media`
-### `CRUD /api/locations`
-
-### `PUT /api/users/:user_id/location/:location_id`
-### `DELETE /api/users/:user_id/location/:location_id`
