@@ -1,5 +1,17 @@
 {
     "name": "@familab/access-controller.nfc",
+    "type": "module",
+    "engines": {
+        "node": ">=18",
+        "pnpm": "*"
+    },
     "scripts": {
+        "sync": "node --loader ts-node/esm sync.ts"
+    },
+    "devDependencies": {
+        "@types/node": "^18.19.16",
+        "nodemon": "^3.0.3",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.3.3"
     }
 }
