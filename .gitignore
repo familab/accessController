@@ -1,0 +1,8 @@
+# Package management
+**/node_modules/
+
+# IDE configuration
+.idea/
+
+# Misc
+.DS_Store

@@ -1,0 +1,25 @@
+{
+    "name": "@familab/access-controller",
+    "version": "2.0.0",
+    "private": true,
+    "description": "Node Library to manage access control hardware",
+    "authors": [],
+    "keywords": [
+        "nfc",
+        "access control"
+    ],
+    "license": "Unlicensed",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/familab/accessController.git"
+    },
+    "bugs": {
+        "url": "https://github.com/familab/accessController/issues"
+    },
+    "homepage": "https://github.com/familab/accessController#readme",
+    "type": "module",
+    "engines": {
+        "node": ">=18",
+        "pnpm": "*"
+    }
+}
