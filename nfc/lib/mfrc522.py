@@ -1,8 +1,7 @@
 # https://gitlab.com/christopher_m/circuitpython-mfrc522
-import board
-import busio
+
 import digitalio
-from os import uname
+from busio import SPI
 
 
 class Registers:
@@ -120,7 +119,7 @@ class NTAGCommands:
 
 class MFRC522:
 
-    def __init__(self, spi, cs, rst):
+    def __init__(self, spi: SPI, cs, rst):
 
         self.cs = digitalio.DigitalInOut(cs)
         self.cs.direction = digitalio.Direction.OUTPUT
@@ -130,20 +129,15 @@ class MFRC522:
         self.rst.value = False
         self.cs.value = True
 
-        board = uname()[0]
-
-        if board == 'ESP32S3':
-            # self.spi = busio.SPI(sck, mosi, miso)
-            self.spi = spi
-            while not self.spi.try_lock():
-                pass
-            self.spi.configure(baudrate=100000, phase=0, polarity=0)
-        else:
-            raise RuntimeError("Unsupported platform")
+        self.spi = spi
+        while not self.spi.try_lock():
+            pass
+        self.spi.configure(baudrate=100000, phase=0, polarity=0)
 
         self.rst.value = True
 
         self.init()
+        self.spi.unlock()
 
     def _wreg(self, reg, val):
 

@@ -3,6 +3,7 @@ import displayio
 import terminalio
 from adafruit_display_text import label
 from adafruit_st7789 import ST7789
+from board import SPI
 
 BORDER = 20
 FONTSCALE = 2
@@ -14,8 +15,7 @@ FAMILAB_BLUE = 0x3399FF
 class Display:
     display: ST7789
 
-    def __init__(self):
-        spi = board.SPI()
+    def __init__(self, spi: SPI):
         displayio.release_displays()
         tft_cs = board.TFT_CS
         tft_dc = board.TFT_DC

@@ -1,18 +1,15 @@
-import board
+from busio import SPI
+
 from mfrc522 import MFRC522, NTAGCommands, Status
-from os import uname
 
 
 class Reader:
     reader: MFRC522
+    spi: SPI
 
-    def __init__(self):
-        spi = board.SPI()
-        if uname()[0] == 'ESP32S3':
-            self.reader = MFRC522(spi, cs=board.SDA, rst=board.D5)
-            spi.unlock()
-        else:
-            raise RuntimeError("Unsupported platform")
+    def __init__(self, spi: SPI, cs, rst):
+        self.spi = spi
+        self.reader = MFRC522(self.spi, cs=cs, rst=rst)
 
         print("")
         print("Place card before reader to read from address 0x08")
@@ -20,9 +17,8 @@ class Reader:
 
     # https://gitlab.com/christopher_m/circuitpython-mfrc522/-/blob/master/examples/read.py
     def do_read(self) -> str | None:
-        spi = board.SPI()
         try:
-            while not spi.try_lock():
+            while not self.spi.try_lock():
                 pass
 
             (stat, tag_type) = self.reader.request(NTAGCommands.SENS_REQ)
@@ -54,4 +50,4 @@ class Reader:
         except KeyboardInterrupt:
             print("Bye")
         finally:
-            spi.unlock()
+            self.spi.unlock()
