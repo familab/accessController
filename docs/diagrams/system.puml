@@ -37,3 +37,27 @@ Server <-> Database
 Database -> DatabaseBackup
 DatabaseBackup -> S3
 @enduml
+
+@startuml
+!include _shared.puml!style
+
+title System Component Diagram
+
+cloud "Google" {
+  component Sheet
+}
+
+node "FamiLAB" {
+  component auth_server as "Authentication Server"
+
+  component acp as "Access Control Point"
+
+  actor User
+}
+
+User --> acp : Scan badge
+
+acp --> auth_server: Calls `POST /api/access`
+auth_server --> Sheet: Fetch badge ids and location permissions
+
+@enduml

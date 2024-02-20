@@ -1,7 +1,9 @@
 @startuml(id=style)
 !theme crt-amber
+!pragma teoz true
 skinparam componentStyle rectangle
 skinparam backgroundColor transparent
+skinparam backgroundColor #3C3D3E
 
 <style>
 fontColor: #fda501
@@ -10,6 +12,11 @@ note, group {
 }
 note {
   fontStyle: bold
+}
+box {
+  lineStyle: 0
+  roundCorner: 8
+  linecolor: #151515
 }
 </style>
 
