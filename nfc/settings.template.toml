@@ -1,0 +1,4 @@
+ssid = "WiFi SSID"
+password = "WiFi Password"
+base_url = "http://example.authentication.server"
+location = "front-door"

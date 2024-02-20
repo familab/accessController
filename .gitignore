@@ -1,6 +1,9 @@
 # Package management
 **/node_modules/
 
+# Secrets
+nfc/settings.toml
+
 # IDE configuration
 .idea/
 
