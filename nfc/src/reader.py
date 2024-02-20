@@ -1,5 +1,5 @@
 import board
-from mfrc522 import MFRC522
+from mfrc522 import MFRC522, NTAGCommands, Status
 from os import uname
 
 
@@ -25,12 +25,12 @@ class Reader:
             while not spi.try_lock():
                 pass
 
-            (stat, tag_type) = self.reader.request(self.reader.REQIDL)
-            if stat != self.reader.OK:
+            (stat, tag_type) = self.reader.request(NTAGCommands.SENS_REQ)
+            if stat != Status.OK:
                 return None
 
             (stat, raw_uid) = self.reader.anticoll()
-            if stat != self.reader.OK:
+            if stat != Status.OK:
                 return None
 
             uid = "0x%02x%02x%02x%02x" % (raw_uid[0], raw_uid[1], raw_uid[2], raw_uid[3])
@@ -39,9 +39,9 @@ class Reader:
             print("  - uid     : %s" % uid)
             print("")
 
-            if self.reader.select_tag(raw_uid) == self.reader.OK:
+            if self.reader.select_tag(raw_uid) == Status.OK:
                 key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-                if self.reader.auth(self.reader.AUTHENT1A, 8, key, raw_uid) == self.reader.OK:
+                if self.reader.auth(NTAGCommands.GET_VERSION, 8, key, raw_uid) == Status.OK:
                     print("Address 8 data: %s" % self.reader.read(8))
                     self.reader.stop_crypto1()
                 else:
