@@ -1,0 +1,8 @@
+{
+  "require": "dotenv/config",
+  "extension": ["ts"],
+  "node-option": [
+    "loader=ts-node/esm"
+  ],
+  "exit": true
+}

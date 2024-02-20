@@ -1,5 +1,50 @@
 {
     "name": "@familab/access-controller.api",
+    "description": "Modern API Rewrite of Familab's access control system.",
+    "type": "module",
     "scripts": {
+        "build": "tsc --project tsconfig.build.json",
+        "lint": "eslint --ext .ts src",
+        "test": "mocha {src,integration}/**/*.test.ts",
+        "test:unit": "mocha src/**/*.test.ts",
+        "test:integration": "mocha integration/**/*.test.ts",
+        "dev": "node --loader=ts-node/esm -r dotenv/config src/server.ts",
+        "start": "node ./build/server"
+    },
+    "dependencies": {
+        "@googleapis/sheets": "^5.0.5",
+        "chalk": "^5.3.0",
+        "class-transformer": "^0.5.1",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "googleapis-common": "^7.0.1",
+        "reflect-metadata": "^0.1.13",
+        "routing-controllers": "^0.10.4",
+        "typedi": "^0.10.0",
+        "winston": "^3.11.0"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.3.9",
+        "@types/chance": "^1.1.5",
+        "@types/express": "^4.17.20",
+        "@types/mocha": "^10.0.3",
+        "@types/node": "^20.8.10",
+        "@types/sinon": "^17.0.3",
+        "@types/supertest": "^2.0.15",
+        "@typescript-eslint/eslint-plugin": "^6.9.1",
+        "@typescript-eslint/parser": "^6.9.1",
+        "chai": "^4.3.10",
+        "chance": "^1.1.11",
+        "eslint": "^8.52.0",
+        "logform": "^2.6.0",
+        "mocha": "^10.2.0",
+        "sinon": "^17.0.1",
+        "supertest": "^6.3.3",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.2.2"
+    },
+    "engines": {
+        "node": "^18",
+        "pnpm": "*"
     }
 }
