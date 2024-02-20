@@ -27,13 +27,14 @@ class Display:
         )
 
     def draw_text(self,
-                  text,
+                  text: str,
                   border_color=None,
                   text_color=0xFFFFFF,
                   foreground_color=FAMILAB_BLUE):
-        print("Display: ", text)
 
-        if border_color == None:
+        print("| %s |" % text.replace("\n", " "))
+
+        if border_color is None:
             border_color = foreground_color
 
         splash = displayio.Group()
@@ -60,4 +61,4 @@ class Display:
         text_group.append(text_area)
         splash.append(text_group)
 
-        self.display.show(splash)
+        self.display.root_group = splash

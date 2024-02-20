@@ -13,11 +13,12 @@ class Wifi:
     location = os.getenv("location")
 
     def __init__(self):
-
         if self.base_url is None:
             raise RuntimeError("'base_url' setting not found")
         if self.location is None:
             raise RuntimeError("'location' setting not found")
+
+        radio.connect(self.ssid, self.password)
 
         radio.connect(self.ssid, self.password)
 
@@ -35,8 +36,6 @@ class Wifi:
                 headers={"x-location-code": self.location},
                 timeout=5
             )
-            print(response.status_code)
-            print(response.text)
 
             return response.status_code == 200
 

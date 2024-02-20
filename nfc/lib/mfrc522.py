@@ -113,8 +113,11 @@ class NTAGCommands:
     ALL_REQ = 0x52
     ANTICOLL_1 = [0x93, 0x20]
     SEL_REQ_1 = [0x93, 0x70]
+    ANTICOLL_2 = [0x95, 0x20]
+    SEL_REQ_2 = [0x95, 0x70]
     GET_VERSION = 0x60
     READ = 0x30
+    PWD_AUTH = 0x1B
 
 
 class MFRC522:
@@ -267,15 +270,19 @@ class MFRC522:
         self._wreg(Registers.BitFramingReg, 0x07)
         (stat, recv, bits) = self._tocard(Commands.PCD_TRANSCEIVE, [mode])
 
-        if (stat != Status.OK) | (bits != 0x10):
-            stat = Status.ERR
+        uid_len = None
+        if len(recv) > 0:
+            uid_len = ((recv[0] & 0xC0) >> 6) + 1
 
-        return stat, bits
+        return stat, bits, uid_len
 
-    def anticoll(self):
+    def anticoll(self, stage=1):
 
         ser_chk = 0
-        ser = NTAGCommands.ANTICOLL_1
+        if stage == 1:
+            ser = NTAGCommands.ANTICOLL_1
+        else:
+            ser = NTAGCommands.ANTICOLL_2
 
         self._wreg(Registers.BitFramingReg, 0x00)
         (stat, recv, bits) = self._tocard(Commands.PCD_TRANSCEIVE, ser)
@@ -291,9 +298,12 @@ class MFRC522:
 
         return stat, recv
 
-    def select_tag(self, ser):
+    def select_tag(self, ser, stage=1):
 
-        buf = NTAGCommands.SEL_REQ_1 + ser[:5]
+        if stage == 1:
+            buf = NTAGCommands.SEL_REQ_1 + ser[:5]
+        else:
+            buf = NTAGCommands.SEL_REQ_2 + ser[:5]
         buf += self._crc(buf)
         (stat, recv, bits) = self._tocard(Commands.PCD_TRANSCEIVE, buf)
         return Status.OK if (stat == Status.OK) and (bits == 0x18) else Status.ERR

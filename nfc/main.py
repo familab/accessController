@@ -8,31 +8,39 @@ from src.display import Display
 from src.reader import Reader
 from src.wifi import Wifi
 
-board_id = uname()[0]
 
 # Setup
+print("\n\n")
+print("#####################")
+print("# Access Controller #")
+print("#####################")
+
 print("Initializing")
+
+reader: Reader
+display: Display | None = None
+wifi: Wifi | None = None
+
+board_id = uname()[0]
 if board_id == 'ESP32S3':
     spi = board.SPI()
     display = Display(spi)
 
-    display.draw_text("Connecting\nto WiFi")
-    wifi = Wifi()
-
     display.draw_text("Initializing\nNFC Reader")
     reader = Reader(spi, board.SDA, board.D5)
+
+    display.draw_text("Connecting\nto WiFi")
+    wifi = Wifi()
 
 elif board_id == 'rp2040':
     spi = SPI(board.GP18, board.GP19, board.GP16)
     reader = Reader(spi, board.GP17, board.GP20)
-    display = None
-    wifi = None
 else:
     raise RuntimeError(f"Unsupported platform {board_id}")
 
+
 # Loop
 while True:
-    print("Waiting to scan...")
     if display:
         display.draw_text("Familab\nScan Badge")
 
@@ -40,7 +48,7 @@ while True:
     while media_code is None:
         media_code = reader.do_read()
 
-    print("Scanned media: ", media_code)
+    print("Scanned media:", media_code)
 
     if display:
         display.draw_text("Authenticating...", 0x00FFFF)
@@ -56,4 +64,4 @@ while True:
         if display:
             display.draw_text("Access Denied", 0xFF0000)
 
-    time.sleep(5)
+    time.sleep(3)
