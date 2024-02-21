@@ -3,7 +3,7 @@ import { HeaderParam, JsonController, Param, Post, Res } from "routing-controlle
 import { Service } from "typedi";
 import { Logger } from "winston";
 
-import { SheetsRepository } from "../repositories/sheets-repository.js";
+import { SheetsRepository } from "../repositories/sheets.repository.js";
 
 @JsonController("/access")
 @Service()
