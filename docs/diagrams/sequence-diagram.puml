@@ -1,0 +1,113 @@
+@startuml
+!include _shared.puml!style
+
+title Phase 0
+hide footbox
+
+participant user as "User"
+
+box FamiLAB
+    box "Access Control Point"
+        participant reader as "RFID Reader" <<MFRC522>>
+        participant mcu as "Microcontroller" <<ESP-32>>
+        participant lock as "Door Lock"
+    end box
+
+    box "Raspberry Pi"
+        participant server as "Authentication\nServer"
+    end box
+end box
+
+== Badge Entry: Valid ==
+
+user -> reader: User scans badge
+    activate user
+    activate reader
+    reader -> mc: Read badge id
+        deactivate reader
+        activate mc
+        mc -> server: Validate badge id
+            activate server
+            server->server: Compare badge id\nto hardcoded users list
+            return ""200"" Ok
+        lock <- mc: Unlock
+        deactivate mc
+    user <- lock: User can enter
+    deactivate user
+
+== Badge Entry: Invalid ==
+
+user -> reader: User scans badge
+    activate user
+    activate reader
+    reader -> mc: Read badge id
+        deactivate reader
+        activate mc
+        mc -> server: Validate badge id
+            activate server
+            server->server: Compare badge id\nto hardcoded users list
+            return ""401"" Unauthorized
+        user <- mc: Nothing happens
+@enduml
+
+@startuml
+!include _shared.puml!style
+
+title Phase 1
+hide footbox
+
+participant user as "User"
+
+box FamiLAB
+    box "Access Control Point"
+        participant reader as "RFID Reader" <<MFRC522>>
+        participant mcu as "Microcontroller" <<ESP-32>>
+        participant lock as "Door Lock"
+    end box
+
+    box "Raspberry Pi"
+        participant server as "Authentication\nServer"
+    end box
+end box
+
+box "Cloud"
+    participant google as "Google Sheet"
+end box
+
+== Badge Entry: Valid ==
+
+user -> reader: User scans badge
+    activate user
+    activate reader
+    reader -> mc: Read badge id
+        deactivate reader
+        activate mc
+        mc -> server: Validate badge id
+            activate server
+            server -> google: Fetch all users and badges
+                activate google
+                return All users and badges
+            server->server: Compare badge id\nto users list
+            return ""200"" Ok
+        lock <- mc: Unlock
+        deactivate mc
+    user <- lock: User can enter
+    deactivate user
+
+== Badge Entry: Invalid ==
+
+user -> reader: User scans badge
+    activate user
+    activate reader
+    reader -> mc: Read badge id
+        deactivate reader
+        activate mc
+        mc -> server: Validate badge id
+            activate server
+            server -> google: Fetch all users and badges
+                activate google
+                return All users and badges
+            server->server: Compare badge id\nto users list
+            return ""401"" Unauthorized
+        user <- mc: Flash red light or something
+@enduml
