@@ -1,0 +1,61 @@
+@startuml
+!include _shared.puml!style
+
+title Phase 0
+
+actor user as "User"
+
+package "Access Control Point" {
+    [reader] as "RFID Reader" <<MFRC522>>
+    [mcu] as "Microcontroller" <<ESP-32>>
+    [lock] as "Door Lock"
+}
+
+package "Raspberry Pi" {
+    [server] as "Authentication\nServer"
+}
+
+user --> reader: Scans badge
+reader -> mcu: reads badge id
+mcu --> server: Is user allowed?
+
+server -> server: Checks hardcoded user list
+
+mcu <-- server: User is/is not allowed
+mcu -> lock: unlocks door
+
+user <-- lock: Opens for
+@enduml
+
+@startuml
+!include _shared.puml!style
+
+title Phase 1
+
+actor user as "User"
+
+package "Access Control Point" {
+    [reader] as "RFID Reader" <<MFRC522>>
+    [mcu] as "Microcontroller" <<ESP-32>>
+    [lock] as "Door Lock"
+}
+
+package "Raspberry Pi" {
+    [server] as "Authentication\nServer"
+}
+
+cloud "Google" {
+    [google] as "Google Sheet"
+}
+
+user --> reader: Scans badge
+reader -> mcu: reads badge id
+mcu --> server: Is user allowed?
+
+server <--> google: Fetch user access info
+
+mcu <-- server: User is/is not allowed
+mcu -> lock: unlocks door
+
+user <-- lock: Opens for
+@enduml
