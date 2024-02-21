@@ -7,7 +7,7 @@ import supertest from "supertest";
 import { Container } from "typedi";
 import "reflect-metadata";
 
-import { SheetsRepository } from "../src/repositories/sheets-repository.js";
+import { SheetsRepository } from "../src/repositories/sheets.repository.js";
 import { router } from "../src/router.js";
 
 const chance = new Chance();
