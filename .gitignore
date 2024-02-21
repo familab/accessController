@@ -5,6 +5,10 @@
 build/
 .local/
 
+# KiCad
+/pcb/project/fp-info-cache
+/pcb/project/project-backups/
+
 # Secrets
 api/.env
 api/credentials.*
