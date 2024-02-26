@@ -33,7 +33,11 @@ export const env = {
     },
     database: Env.string("DATABASE", ".temp.sqlite"),
     google: {
-        credentialsFile: Env.string("GOOGLE.CREDENTIALS_FILE"),
+        credentials: {
+            client_email: Env.string("GOOGLE.CREDENTIALS.CLIENT_EMAIL"),
+            private_key: Env.string("GOOGLE.CREDENTIALS.PRIVATE_KEY")
+                .replaceAll("\\n", "\n"),
+        },
         spreadsheetId: Env.string("GOOGLE.SPREADSHEET_ID"),
         spreadsheetRange: Env.string("GOOGLE.SPREADSHEET_RANGE", "Sheet1"),
     }

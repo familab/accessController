@@ -23,7 +23,7 @@ export class SheetsRepository {
 
         this.sheetsClient = new Sheets({
             auth: new GoogleAuth({
-                keyFile: env.google.credentialsFile,
+                credentials: env.google.credentials,
                 scopes: ['https://www.googleapis.com/auth/spreadsheets']
             })
         });
