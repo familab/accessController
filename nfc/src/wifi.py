@@ -5,6 +5,8 @@ import socketpool
 import ssl
 from wifi import radio
 
+from src.logger import logger
+
 
 class Wifi:
     ssid = os.getenv("ssid")
@@ -26,7 +28,7 @@ class Wifi:
     def check_access(self, media_code: str) -> bool:
 
         url = f"{self.base_url}/api/access/{media_code}"
-        print("Post:", url)
+        logger.debug("POST %s", url)
 
         try:
             response = self.requests.post(
@@ -38,5 +40,5 @@ class Wifi:
             return response.status_code == 200
 
         except Exception as exc:
-            print(exc)
+            logger.error("Fetching badge access failed: %s", exc)
             return False

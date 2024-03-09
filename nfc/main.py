@@ -7,6 +7,7 @@ from digitalio import DigitalInOut, Direction
 from microcontroller import Pin
 
 from src.display import Display
+from src.logger import logger
 from src.reader import Reader
 from src.wifi import Wifi
 
@@ -54,9 +55,9 @@ else:
 
 
 # region Setup
-print("#####################")
-print("# Access Controller #")
-print("#####################")
+logger.info("#####################")
+logger.info("# Access Controller #")
+logger.info("#####################")
 
 ## Init SPI
 spi: SPI = SPI(*config.spi)
@@ -89,7 +90,7 @@ relay.direction = Direction.OUTPUT
 while True:
 
     # Waiting for a badge...
-    print("Scan Badge")
+    logger.info("Scan Badge")
     if display:
         display.draw_text("Familab\nScan Badge")
 
@@ -98,8 +99,8 @@ while True:
         media_code = reader.do_read()
 
     # Got a badge! Checking access...
-    print("Scanned media:", media_code)
-    print("Authenticating...")
+    logger.info("Scanned media: " + media_code)
+    logger.info("Authenticating...")
     if display:
         display.draw_text("Authenticating...", 0x00FFFF)
 
@@ -108,7 +109,7 @@ while True:
     # Got badge status
     if can_access:
         # Door open!
-        print("Access Granted")
+        logger.info("Access Granted")
         relay.value = 1
         if display:
             display.draw_text("Access Granted", 0x00FF00)
@@ -117,7 +118,7 @@ while True:
 
     else:
         # Door not open
-        print("Access Denied")
+        logger.info("Access Denied")
         if display:
             display.draw_text("Access Denied", 0xFF0000)
         time.sleep(3)
