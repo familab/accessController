@@ -1,9 +1,9 @@
-import board
 import displayio
 import terminalio
 from adafruit_display_text import label
 from adafruit_st7789 import ST7789
-from board import SPI
+from busio import SPI
+from microcontroller import Pin
 
 BORDER = 20
 FONTSCALE = 2
@@ -15,10 +15,8 @@ FAMILAB_BLUE = 0x3399FF
 class Display:
     display: ST7789
 
-    def __init__(self, spi: SPI):
+    def __init__(self, spi: SPI, tft_cs: Pin, tft_dc: Pin):
         displayio.release_displays()
-        tft_cs = board.TFT_CS
-        tft_dc = board.TFT_DC
 
         display_bus = displayio.FourWire(spi, command=tft_dc, chip_select=tft_cs)
         # display = ST7789(display_bus, rotation=270, width 240, height=135, rowstart = 40, colstart=53)

@@ -1,4 +1,5 @@
 from busio import SPI
+from microcontroller import Pin
 
 from mfrc522 import MFRC522, NTAGCommands, Status
 
@@ -7,7 +8,7 @@ class Reader:
     reader: MFRC522
     spi: SPI
 
-    def __init__(self, spi: SPI, cs, rst):
+    def __init__(self, spi: SPI, cs: Pin, rst: Pin):
         self.spi = spi
         self.reader = MFRC522(self.spi, cs=cs, rst=rst)
 

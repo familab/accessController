@@ -20,8 +20,6 @@ class Wifi:
 
         radio.connect(self.ssid, self.password)
 
-        radio.connect(self.ssid, self.password)
-
         pool = socketpool.SocketPool(radio)
         self.requests = adafruit_requests.Session(pool, ssl.create_default_context())
 

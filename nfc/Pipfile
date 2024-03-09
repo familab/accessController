@@ -4,10 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+adafruit-blinka = "*"
 adafruit-circuitpython-bitmap-font = "==2.0.2"
 adafruit-circuitpython-display-text = "==3.0.4"
 adafruit-circuitpython-requests = "==2.0.2"
 adafruit-circuitpython-st7789 = "==1.5.18"
+types-circuitpython = "*"
 
 [dev-packages]
 
