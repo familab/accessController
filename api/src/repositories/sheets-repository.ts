@@ -1,10 +1,12 @@
 import { sheets_v4 } from "@googleapis/sheets";
+import { drive_v3 } from "@googleapis/drive";
 import { GoogleAuth } from "googleapis-common";
 import { Service } from "typedi";
 import { Logger } from "winston";
 
 import { env } from "../env.js";
 import Sheets = sheets_v4.Sheets;
+import Drive = drive_v3.Drive;
 
 type BadgeId = string;
 type Endorsement = string;
@@ -13,6 +15,7 @@ type AccessCache = Record<BadgeId, Endorsement[]>;
 @Service()
 export class SheetsRepository {
 
+    private readonly driveClient: Drive;
     private readonly sheetsClient: Sheets;
     private accessCache: AccessCache = {};
 
@@ -21,12 +24,16 @@ export class SheetsRepository {
     ) {
         this.logger = logger.child({file: import.meta.url});
 
-        this.sheetsClient = new Sheets({
-            auth: new GoogleAuth({
-                credentials: env.google.credentials,
-                scopes: ['https://www.googleapis.com/auth/spreadsheets']
-            })
+        const auth = new GoogleAuth({
+            credentials: env.google.credentials,
+            scopes: [
+                // "https://www.googleapis.com/auth/spreadsheets",
+                "https://www.googleapis.com/auth/drive.readonly"
+            ]
         });
+
+        this.driveClient = new Drive({auth});
+        this.sheetsClient = new Sheets({auth});
     }
 
     /**
@@ -60,6 +67,12 @@ export class SheetsRepository {
      */
     private async refreshAccessTable(): Promise<void> {
         this.logger.info("refreshAccessTable(): Entered");
+
+        const response = await this.driveClient.files.get({
+            fileId: env.google.spreadsheetId
+        });
+        const modifiedTime = response.data.modifiedTime;
+        this.logger.info("Modified Time: " + modifiedTime);
 
         // Pull whole sheet from Google
         let table: string[][] | null;
