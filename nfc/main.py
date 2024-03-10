@@ -2,7 +2,7 @@ import time
 from os import uname
 
 import board
-from busio import SPI
+from busio import SPI, I2C
 from digitalio import DigitalInOut, Direction
 from microcontroller import Pin
 from neopixel import NeoPixel
@@ -16,6 +16,7 @@ from src.wifi import Wifi
 # region Classes
 class Config:
     spi: tuple[Pin, Pin, Pin]
+    i2c: tuple[Pin, Pin]
     reader: tuple[Pin, Pin]
     display: tuple[Pin, Pin] | None
     relay: Pin
@@ -53,7 +54,8 @@ elif board_id == 'rp2040':
     config.neopixel = board.GP11
     config.neopixel_count = 1
     config.spi = (board.GP18, board.GP19, board.GP16)
-    config.reader = (board.GP17, board.GP20)
+    config.i2c = (board.GP1, board.GP0)
+    config.reader = (board.GP2, board.GP3)
     config.relay = board.GP22
 
 else:
@@ -75,19 +77,20 @@ pixels: NeoPixel = NeoPixel(
     auto_write=True)
 pixels.fill(colors.OFF)
 
-## Init SPI
+## Init Serial
 spi: SPI = SPI(*config.spi)
+i2c: I2C = I2C(*config.i2c)
 
 ## Init Display
 display: Display | None = None
-if config.display:
+if hasattr(config, "display"):
     display = Display(spi, *config.display)
 
 ## Init Reader
 if display:
     display.draw_text("Initializing\nNFC Reader")
 
-reader: Reader = Reader(spi, *config.reader)
+reader: Reader = Reader(i2c, *config.reader)
 
 ## Init Wi-Fi
 if display:
@@ -111,9 +114,7 @@ while True:
     if display:
         display.draw_text("Familab\nScan Badge")
 
-    media_code = None
-    while media_code is None:
-        media_code = reader.do_read()
+    media_code = reader.do_read()
 
     # Got a badge! Checking access...
     pixels[0] = colors.YELLOW

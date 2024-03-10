@@ -20,7 +20,10 @@ class Wifi:
         if self.location is None:
             raise RuntimeError("'location' setting not found")
 
-        radio.connect(self.ssid, self.password)
+        try:
+            radio.connect(self.ssid, self.password)
+        except Exception as e:
+            print(e)
 
         pool = socketpool.SocketPool(radio)
         self.requests = adafruit_requests.Session(pool, ssl.create_default_context())
