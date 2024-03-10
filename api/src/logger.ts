@@ -23,8 +23,9 @@ Container.set({
         },
         format: format((info) => {
             info.timestamp = new Date().toISOString();
-            info.file = path.posix.normalize(path.relative(process.cwd(), fileURLToPath(info.file)));
-            // info.file = path.relative(process.cwd(), info.file).replace("\\", "/");
+            if (info.file) {
+                info.file = path.posix.normalize(path.relative(process.cwd(), fileURLToPath(info.file)));
+            }
             maxFileLen = Math.max(maxFileLen, info.file?.length ?? 0);
             return info;
         })(),
