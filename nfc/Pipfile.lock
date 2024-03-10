@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b2da8f201926390ea76e2bc9918f44fcd51108d00f2dec57694fd7f99d9e54da"
+            "sha256": "99865108fbd6e79642927548362fa9192bb3f55861b6dbddeb0caff8d8bbf763"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -54,6 +54,21 @@
             ],
             "index": "pypi",
             "version": "==3.0.4"
+        },
+        "adafruit-circuitpython-neopixel": {
+            "hashes": [
+                "sha256:0abb2f22917d550df99501d43cee3c96e8cdc9191042dbdfa368d4658ae132f6",
+                "sha256:c7b7693e87bcb3549bc64394822c0a0f2846c4a076748c66059520300ec68ceb"
+            ],
+            "index": "pypi",
+            "version": "==6.3.11"
+        },
+        "adafruit-circuitpython-pixelbuf": {
+            "hashes": [
+                "sha256:8ac3819adac3c45f33a81aa686975a7beb8a771e08e19c4e35c0c22d9de68a9a",
+                "sha256:bd1278b60d82815a2cdf334329319e505f77cc5b98278859d4e706c97f0dded6"
+            ],
+            "version": "==2.0.4"
         },
         "adafruit-circuitpython-requests": {
             "hashes": [

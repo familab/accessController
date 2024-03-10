@@ -12,6 +12,7 @@ const filesToWatch = [
     ".venv/Lib/site-packages/adafruit_display_text",
     ".venv/Lib/site-packages/adafruit_requests.py",
     ".venv/Lib/site-packages/adafruit_st7789.py",
+    ".venv/Lib/site-packages/neopixel.py",
 ];
 const targetDrive = "E:/";
 // endregion
