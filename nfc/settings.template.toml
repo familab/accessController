@@ -1,4 +1,21 @@
-ssid = "WiFi SSID"
-password = "WiFi Password"
-base_url = "http://example.authentication.server"
-location = "front-door"
+# ################################ #
+# # Example `settings.toml` file # #
+# ################################ #
+# Copy and rename this file to `settings.toml` and fill it out for local testing
+
+# Location code to check media against (required)
+config.location = "front-door"
+
+# Comma-separated list of media codes to accept at this location if the auth
+# server can't be reached (optional)
+config.default_media_cache = "1234,5678"
+
+# SSID and password for WiFi network connectivity (required)
+network.ssid = "WiFi SSID"
+network.password = "WiFi Password"
+
+# Base URL for the authentication server to query against (required)
+network.base_url = "http://example.authentication.server"
+
+# Level to log at (optional)
+log.level = "info"
