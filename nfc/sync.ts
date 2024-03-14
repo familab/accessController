@@ -8,11 +8,11 @@ const filesToWatch = [
     "main.py",
     "settings.toml",
     "src",
-    "lib/mfrc522.py",
     ".venv/Lib/site-packages/adafruit_display_text",
+    ".venv/Lib/site-packages/adafruit_pn532",
     ".venv/Lib/site-packages/adafruit_requests.py",
     ".venv/Lib/site-packages/adafruit_st7789.py",
-    ".venv/Lib/site-packages/board.py",
+    ".venv/Lib/site-packages/neopixel.py",
 ];
 const targetDrive = "E:/";
 // endregion
@@ -69,15 +69,22 @@ const changeHandler = timers.setTimeout(() => {
         }
 
         if (!srcStats && destStats) {
+            // Delete file
             console.log("× %s", destFile);
+
         } else if (srcStats && !destStats) {
-            console.log("%s\n  ↳ %s", srcFile, destFile);
-            fs.copyFileSync(srcFile, destFile);
-        } else if (srcStats && destStats) {
-            if (srcStats.mtime > destStats.mtime) {
-                console.log("%s\n  ↳ %s", srcFile, destFile);
-                fs.copyFileSync(srcFile, destFile);
+            // Create file
+            console.log("+ %s", destFile);
+            const dirname = path.dirname(destFile);
+            if (dirname.length > 3) {
+                fs.mkdirSync(dirname, {recursive: true});
             }
+            fs.copyFileSync(srcFile, destFile);
+
+        } else if (srcStats && destStats && srcStats.mtime > destStats.mtime) {
+            // Update file
+            console.log("* %s", destFile);
+            fs.copyFileSync(srcFile, destFile);
         }
 
         changedFiles.delete(srcFile);

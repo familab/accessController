@@ -5,12 +5,16 @@ import socketpool
 import ssl
 from wifi import radio
 
+from src.logger import logger
+
 
 class Wifi:
-    ssid = os.getenv("ssid")
-    password = os.getenv("password")
-    base_url = os.getenv("base_url")
-    location = os.getenv("location")
+    ssid: str = os.getenv("network.ssid")
+    password: str = os.getenv("network.password")
+    base_url: str = os.getenv("network.base_url")
+    location: str = os.getenv("config.location")
+
+    media_cache: set[str] = set(os.getenv("config.default_media_cache", "").split(","))
 
     def __init__(self):
         if self.base_url is None:
@@ -18,9 +22,10 @@ class Wifi:
         if self.location is None:
             raise RuntimeError("'location' setting not found")
 
-        radio.connect(self.ssid, self.password)
-
-        radio.connect(self.ssid, self.password)
+        try:
+            radio.connect(self.ssid, self.password)
+        except Exception as e:
+            print(e)
 
         pool = socketpool.SocketPool(radio)
         self.requests = adafruit_requests.Session(pool, ssl.create_default_context())
@@ -28,17 +33,24 @@ class Wifi:
     def check_access(self, media_code: str) -> bool:
 
         url = f"{self.base_url}/api/access/{media_code}"
-        print("Post:", url)
+        logger.debug("POST %s", url)
 
         try:
             response = self.requests.post(
                 url,
                 headers={"x-location-code": self.location},
-                timeout=5
+                timeout=2
             )
 
-            return response.status_code == 200
+            is_allowed = response.status_code == 200
+            if is_allowed:
+                self.media_cache.add(media_code)
+            else:
+                self.media_cache.remove(media_code)
+
+            return is_allowed
 
         except Exception as exc:
-            print(exc)
-            return False
+            logger.error("Fetching badge access failed: %s", exc)
+            logger.warn("Using local cache")
+            return media_code in self.media_cache
