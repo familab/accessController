@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b9c1a97834edfc2aca4e44ddbde3b7dc57b92a93b711ef4c6ac0430b427cce76"
+            "sha256": "519032303dcce14bd34f04272137caa10f2a6763fc1b7f9080aaec85bfc92ba0"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -31,6 +31,14 @@
                 "sha256:b2e72da4d76646732fd14f2d9587a1caebf5881831c1260c13d76d50a260d934"
             ],
             "version": "==1.2.2"
+        },
+        "adafruit-circuitpython-asyncio": {
+            "hashes": [
+                "sha256:e0ff0930b4c604c986f268feb068449a613d8df0e964d624ec2a3b79047db853",
+                "sha256:ec24197f939482e8149e460effac9f6840af25ff4352506e3b7120c214756cf2"
+            ],
+            "index": "pypi",
+            "version": "==1.3.1"
         },
         "adafruit-circuitpython-bitmap-font": {
             "hashes": [
@@ -93,6 +101,13 @@
             ],
             "index": "pypi",
             "version": "==1.5.18"
+        },
+        "adafruit-circuitpython-ticks": {
+            "hashes": [
+                "sha256:0afdf84c3ead1334921df697bdd9377da2b9ebf86f81b1d22efcae3586073258",
+                "sha256:d8509ce4df4705e3a596bb457a71014add2e37afbeba0cbd6a40b3b2da7607d8"
+            ],
+            "version": "==1.0.13"
         },
         "adafruit-circuitpython-typing": {
             "hashes": [

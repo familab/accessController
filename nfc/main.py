@@ -1,11 +1,13 @@
+import asyncio
 import time
-from os import uname
 
 import board
+from asyncio import create_task, Loop
 from busio import SPI, I2C
 from digitalio import DigitalInOut, Direction
 from microcontroller import Pin
 from neopixel import NeoPixel
+from os import uname
 
 from src.display import Display
 from src.logger import logger
@@ -22,6 +24,8 @@ class Config:
     relay: Pin
     neopixel: Pin
     neopixel_count: int
+
+
 # endregion
 
 
@@ -35,6 +39,8 @@ class colors:
     # BLUE = (0, 0, 255)
     # PURPLE = (180, 0, 255)
     FAMILAB_BLUE = 0x3399FF
+
+
 # endregion
 
 
@@ -102,46 +108,50 @@ wifi: Wifi = Wifi()
 relay: DigitalInOut = DigitalInOut(config.relay)
 relay.direction = Direction.OUTPUT
 
+
 # endregion
 
 
 # region Main Loop
-while True:
+async def main_loop():
+    while True:
 
-    # Waiting for a badge...
-    pixels[0] = colors.FAMILAB_BLUE
-    logger.info("Scan Badge")
-    if display:
-        display.draw_text("Familab\nScan Badge")
-
-    media_code = reader.do_read()
-
-    # Got a badge! Checking access...
-    pixels[0] = colors.YELLOW
-    logger.info("Scanned media: " + media_code)
-    logger.info("Authenticating...")
-    if display:
-        display.draw_text("Authenticating...", 0x00FFFF)
-
-    can_access = wifi.check_access(media_code)
-
-    # Got badge status
-    if can_access:
-        # Door open!
-        logger.info("Access Granted")
-        relay.value = 1
-        pixels[0] = colors.GREEN
+        # Waiting for a badge...
+        pixels[0] = colors.FAMILAB_BLUE
+        logger.info("Scan Badge")
         if display:
-            display.draw_text("Access Granted", 0x00FF00)
-        time.sleep(10)
-        relay.value = 0
+            display.draw_text("Familab\nScan Badge")
 
-    else:
-        # Door not open
-        logger.info("Access Denied")
-        pixels[0] = colors.RED
+        media_code = await reader.do_read()
+
+        # Got a badge! Checking access...
+        pixels[0] = colors.YELLOW
+        logger.info("Scanned media: " + media_code)
+        logger.info("Authenticating...")
         if display:
-            display.draw_text("Access Denied", 0xFF0000)
-        time.sleep(3)
+            display.draw_text("Authenticating...", 0x00FFFF)
 
+        can_access = wifi.check_access(media_code)
+
+        # Got badge status
+        if can_access:
+            # Door open!
+            logger.info("Access Granted")
+            relay.value = 1
+            pixels[0] = colors.GREEN
+            if display:
+                display.draw_text("Access Granted", 0x00FF00)
+            await asyncio.sleep(10)
+            relay.value = 0
+
+        else:
+            # Door not open
+            logger.info("Access Denied")
+            pixels[0] = colors.RED
+            if display:
+                display.draw_text("Access Denied", 0xFF0000)
+            await asyncio.sleep(3)
+
+
+Loop.run_until_complete(create_task(main_loop()))
 # endregion

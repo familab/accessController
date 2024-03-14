@@ -12,6 +12,7 @@ adafruit-circuitpython-pn532 = "*"
 adafruit-circuitpython-requests = "==2.0.2"
 adafruit-circuitpython-st7789 = "==1.5.18"
 types-circuitpython = "*"
+adafruit-circuitpython-asyncio = "*"
 
 [dev-packages]
 
