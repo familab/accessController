@@ -1,19 +1,35 @@
-FROM node:18-alpine
+FROM node:18-alpine as base
 LABEL org.opencontainers.image.source = "https://github.com/familab/accessController"
+
+
+FROM base as build_api
+# Build API
 
 RUN npm install --global pnpm
 
-WORKDIR /home
+WORKDIR /build
+COPY package.json \
+     tsconfig.json \
+     pnpm-workspace.yaml \
+     ./
 
-COPY tsconfig.json ./
+WORKDIR /build/api
 COPY api/package.json \
      api/tsconfig.json \
      api/tsconfig.build.json \
-     api/
-COPY api/src api/src
+     ./
+COPY api/src src/
 
-RUN cd api && \
-    pnpm install && \
-    pnpm run build
+RUN pnpm install
+RUN pnpm run build
+RUN pnpm \
+    --filter=@familab/access-controller.api \
+    --prod \
+    deploy deployment
 
-ENTRYPOINT node ./api/build/server.js
+
+FROM base
+
+COPY --from=build_api /build/api/deployment ./
+
+ENTRYPOINT node ./build/server.js
