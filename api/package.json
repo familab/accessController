@@ -9,6 +9,7 @@
         "test:unit": "mocha src/**/*.test.ts",
         "test:integration": "mocha integration/**/*.test.ts",
         "dev": "node --loader=ts-node/esm -r dotenv/config src/server.ts",
+        "dev:populate": "node --loader=ts-node/esm -r dotenv/config scripts/populate-script.ts",
         "start": "node ./build/server"
     },
     "dependencies": {
