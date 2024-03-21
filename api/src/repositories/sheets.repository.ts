@@ -14,7 +14,7 @@ type AccessCache = Record<BadgeId, Endorsement[]>;
 export class SheetsRepository {
 
     private readonly sheetsClient: Sheets;
-    private accessCache: AccessCache = {};
+    public accessCache: AccessCache = {};
 
     public constructor(
         private logger: Logger,
@@ -93,5 +93,32 @@ export class SheetsRepository {
 
         this.logger.debug("accessCache", this.accessCache);
         this.logger.info("refreshAccessTable(): Exited");
+    }
+
+    public async getTable(): Promise<string[][]> {
+        this.logger.info("fetchTheThings(): Entered");
+
+        // Pull whole sheet from Google
+        let table: string[][] | null;
+        try {
+            const result = await this.sheetsClient.spreadsheets.values.get({
+                spreadsheetId: env.google.spreadsheetId,
+                range: env.google.spreadsheetRange
+            });
+            table = result.data.values!;
+        } catch (e) {
+            const message = e instanceof Error ? e.message : "Unknown error";
+            this.logger.error("Table fetch failed: " + message);
+            throw e;
+        }
+
+        // Ensure the response has content
+        if (!table) {
+            this.logger.error("Table fetch returned empty");
+            throw new Error("Table fetch returned empty");
+        }
+
+        this.logger.info("fetchTheThings(): Exited");
+        return table;
     }
 }

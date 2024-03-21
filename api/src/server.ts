@@ -15,3 +15,7 @@ const port = env.serverPort;
 app.listen(port, () => {
     logger.info(`Server started. Explore API at http://localhost:${port}/explorer.`);
 });
+
+process.setUncaughtExceptionCaptureCallback((e) => {
+    console.error(e);
+});

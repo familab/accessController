@@ -1,5 +1,5 @@
 import type { Relation } from "typeorm";
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { AfterLoad, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { UserStatusEnum } from "../../enums/user-status.enum.js";
 import { LocationDatabaseModel } from "./location.database-model.js";
@@ -26,4 +26,10 @@ export class UserDatabaseModel {
 
     @OneToMany(() => MediaDatabaseModel, media => media.user)
     media: Relation<MediaDatabaseModel>[];
+
+    @AfterLoad()
+    private afterLoad() {
+        this.locationsCanAccess ??= [];
+        this.media ??= [];
+    }
 }

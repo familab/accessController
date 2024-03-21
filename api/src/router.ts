@@ -6,6 +6,7 @@ import { Container } from "typedi";
 import "reflect-metadata";
 
 import { AccessController } from "./controllers/access.controller.js";
+import { UserController } from "./controllers/user.controller.js";
 import "./datasource.js";
 import "./logger.js";
 
@@ -17,6 +18,7 @@ const options: RoutingControllersOptions = {
     routePrefix: "/api",
     controllers: [
         AccessController,
+        UserController
     ]
 };
 
