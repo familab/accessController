@@ -1,10 +1,3 @@
-<style>
-body {
-  color: #fda501;
-  background-color: #2b2b2b;
-}
-</style>
-
 FamiLAB Access Controller
 =========================
 
@@ -28,6 +21,8 @@ See [nfc/README.md](./nfc/README.md)
 
 See [api/README.md](./api/README.md)
 
+--------------------------------
+
 ## Development Setup
 
 1. Install Node 18+
@@ -40,6 +35,47 @@ See [api/README.md](./api/README.md)
     pnpm install
     ```
 4. Follow Development Setup instructions for the sub-project you wish to work on.
+
+--------------------------------
+
+## Deployment Process
+
+The Docker image is built via GitHub Actions whenever a new commit is merged into the `release/v4` branch. The image is
+therefore tagged `ghcr.io/familab/accesscontroller:release-v4`.
+
+The server application is composed of multiple docker containers defined by the `./access-controller.stack.yml` Docker
+Stack. To deploy this file to the server, you must have a Docker Context set up locally, and then update the Stack using
+the stack file.
+
+### Setup Docker Context
+
+On your local machine, create a new [Docker Context](https://docs.docker.com/engine/context/working-with-contexts/) for
+the access controller server.
+
+```bash
+docker context create familab.accesscontroller --docker "host=ssh://familab@accesscontroller.familab.lan.local"
+docker context use familab.accesscontroller
+```
+
+Once you run these commands all `docker *` commands you use will target the remote server.
+
+You can always switch back to targeting your local machine by running:
+
+```bash
+docker context use default
+```
+
+### Update Stack
+
+Once you have a Docker Context set up for the remote server, run the following command to push the Stack.
+
+```bash
+docker stack deploy -c "./access-controller.stack.yml" access-controller
+```
+
+Make sure to check the logs of the containers to ensure the deployment worked.
+
+--------------------------------
 
 ## Project Status
 
