@@ -2,6 +2,9 @@
     "name": "@familab/access-controller.api",
     "description": "Modern API Rewrite of Familab's access control system.",
     "type": "module",
+    "files": [
+        "build"
+    ],
     "scripts": {
         "build": "tsc --project tsconfig.build.json",
         "lint": "eslint --ext .ts src",

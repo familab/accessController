@@ -1,0 +1,26 @@
+# Docker Swarm Stack
+version: "3.9"
+
+services:
+  auth_service:
+    image: ghcr.io/familab/accesscontroller:release-v4
+    build:
+      context: ./
+    ports:
+      - "8080:8080/tcp"
+    secrets:
+      - google_credentials_client_email
+      - google_credentials_private_key
+    environment:
+      SERVER_PORT: 8080
+      LOGGING.LEVEL: info
+      GOOGLE.SPREADSHEET_ID: 1Mq3VC8-aO_3UA5PiUksvpzVHU1C49I5I1nvsnFs80Zo
+      GOOGLE.SPREADSHEET_RANGE: Sheet1
+      GOOGLE.CREDENTIALS.CLIENT_EMAIL#file: /run/secrets/google_credentials_client_email
+      GOOGLE.CREDENTIALS.PRIVATE_KEY#file: /run/secrets/google_credentials_private_key
+
+secrets:
+  google_credentials_client_email:
+    external: true
+  google_credentials_private_key:
+    external: true
