@@ -34,12 +34,12 @@ npm run sync
 | Description | GPIO | Breakout |
 |-------------|------|----------|
 | 5v In       | VSYS | 39       |
-| 3v Out      | VBUS | 36       |
+| 3v Out      | 3V3  | 36       |
 | SDA         | GP0  | 1        |
 | SCL         | GP1  | 2        |
 | PN532 Irq   | GP2  | 4        |
 | PN532 Rst   | GP3  | 5        |
-| NeoPixel    | GP11 | 15       |
+| NeoPixel    | GP4  | 15       |
 | Relay       | GP22 | 29       |
 
 [Installing CircuitPython]: https://learn.adafruit.com/welcome-to-circuitpython/installing-circuitpython
