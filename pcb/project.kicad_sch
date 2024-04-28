@@ -4505,7 +4505,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "BZT52C12-TP"
+		(property "Value" " 1N5242BTR"
 			(at 251.46 96.52 90)
 			(effects
 				(font
@@ -4514,7 +4514,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Diode_SMD:D_SOD-123"
+		(property "Footprint" "Diode_THT:D_A-405_P7.62mm_Horizontal"
 			(at 248.92 95.25 0)
 			(effects
 				(font
@@ -4523,7 +4523,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.mccsemi.com/pdf/Products/BZT52C2V4~BZT52C75(500mW)(SOD-123).pdf"
+		(property "Datasheet" "https://www.mouser.com/datasheet/2/308/1N5221B_D-2309445.pdf"
 			(at 248.92 95.25 0)
 			(effects
 				(font
@@ -4721,7 +4721,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_THT:SW_PUSH_6mm"
 			(at 214.63 62.23 0)
 			(effects
 				(font
@@ -4854,7 +4854,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 232.41 87.122 90)
 			(effects
 				(font
@@ -6462,7 +6462,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_THT:SW_PUSH_6mm"
 			(at 124.46 96.52 0)
 			(effects
 				(font
@@ -6665,7 +6665,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 236.982 95.25 90)
 			(effects
 				(font
