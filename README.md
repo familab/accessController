@@ -53,7 +53,7 @@ On your local machine, create a new [Docker Context](https://docs.docker.com/eng
 the access controller server.
 
 ```bash
-docker context create familab.accesscontroller --docker "host=ssh://familab@accesscontroller.familab.lan.local"
+docker context create familab.accesscontroller --docker "host=ssh://familab@doorcontroller.familab.local.lan"
 docker context use familab.accesscontroller
 ```
 

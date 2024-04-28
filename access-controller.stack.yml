@@ -7,14 +7,14 @@ services:
     build:
       context: ./
     ports:
-      - "8080:8080/tcp"
+      - "80:80/tcp"
     secrets:
       - google_credentials_client_email
       - google_credentials_private_key
     environment:
-      SERVER_PORT: 8080
+      SERVER_PORT: 80
       LOGGING.LEVEL: info
-      GOOGLE.SPREADSHEET_ID: 1Mq3VC8-aO_3UA5PiUksvpzVHU1C49I5I1nvsnFs80Zo
+      GOOGLE.SPREADSHEET_ID: 1TOEe1C9xMcQtIqxK-5aXYGRx1FHreVW9BISXBMKkNwM
       GOOGLE.SPREADSHEET_RANGE: Sheet1
       GOOGLE.CREDENTIALS.CLIENT_EMAIL#file: /run/secrets/google_credentials_client_email
       GOOGLE.CREDENTIALS.PRIVATE_KEY#file: /run/secrets/google_credentials_private_key
