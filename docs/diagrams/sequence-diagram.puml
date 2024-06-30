@@ -15,6 +15,7 @@ box FamiLAB
     end box
 
     box "Raspberry Pi"
+        participant mqtt as "MQTT\nBroker" <<Mosquitto>>
         participant server as "Authentication\nService" <<NodeJS>>
     end box
 end box
@@ -22,6 +23,9 @@ end box
 box "Cloud"
     participant google as "Google Sheet"
 end box
+
+
+led <- mcu: **Blue**
 
 == Badge Entry: Valid ==
 
@@ -32,18 +36,24 @@ user -> reader: User scans badge
         deactivate reader
         activate mcu
         led <- mcu: **Orange**
-        mcu -> server: Validate badge id
+        mcu -> mqtt: Write:\n**""familab/access_control/scan/{location}""**\n{badge-code}
+        mqtt -> server: Read:\n**""familab/access_control/scan/+""**
             activate server
             server -> google: Fetch all users and badges
                 activate google
                 return All users and badges
             server->server: Compare badge id\nto users list
-            return ""200"" Ok
+            return Write:\n**""familab/access_control/access/{location}""**\n""true""
+        mcu <- mqtt: Read:\n**""familab/access_control/scan/{location}""**
+        mcu -> mcu: Value is ""true""
         lock <- mcu: Unlock
         led <- mcu: **Green**
-        deactivate mcu
     user <- lock: User can enter
     deactivate user
+    ...10 seconds...
+    lock <- mcu: Lock
+    led <- mcu: **Blue**
+    deactivate mcu
 
 == Badge Entry: Invalid ==
 
@@ -54,15 +64,58 @@ user -> reader: User scans badge
         deactivate reader
         activate mcu
         led <- mcu: **Orange**
-        mcu -> server: Validate badge id
+        mcu -> mqtt: Write:\n**""familab/access_control/scan/{location}""**\n{badge-code}
+        mqtt -> server: Read:\n**""familab/access_control/scan/+""**
             activate server
             server -> google: Fetch all users and badges
                 activate google
                 return All users and badges
             server->server: Compare badge id\nto users list
-            return ""401"" Unauthorized
+            return Write:\n**""familab/access_control/access/{location}""**\n""false""
+        mcu <- mqtt: Read:\n**""familab/access_control/scan/{location}""**
+        mcu -> mcu: Value is ""false""
         led <- mcu: **Red**
-        deactivate mcu
     user -> user: User is sad
     deactivate user
+    ...10 seconds...
+    led <- mcu: **Blue**
+    deactivate mcu
+
+== Remote Door Unlock ==
+
+user -> server: POST /location/{location-code}/unlock
+    activate user
+    activate server
+        mqtt <- server: Write:\n**""familab/access_control/access/{location}""**\n""false""
+    deactivate server
+    activate mcu
+    mcu <- mqtt: Read:\n**""familab/access_control/scan/{location}""**
+    mcu -> mcu: Value is ""true""
+    lock <- mcu: Unlock
+    led <- mcu: **Green**
+    user <- lock: User can enter
+    deactivate user
+    ...10 seconds...
+    lock <- mcu: Lock
+    led <- mcu: **Blue**
+    deactivate mcu
+
+== Open House Mode ==
+
+user -> server: POST /location/{location-code}/open-house
+    activate user
+    activate server
+        mqtt <- server: Write:\n**""familab/access_control/access/{location}""**\n""false""
+    deactivate server
+    activate mcu
+    mcu <- mqtt: Read:\n**""familab/access_control/scan/{location}""**
+    mcu -> mcu: Value is ""true""
+    lock <- mcu: Unlock
+    led <- mcu: **Green**
+    user <- lock: User can enter
+    deactivate user
+    ...10 seconds...
+    lock <- mcu: Lock
+    led <- mcu: **Blue**
+    deactivate mcu
 @enduml
